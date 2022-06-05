@@ -1,0 +1,56 @@
+header{
+    border-bottom: 1px solid black;
+    padding: 10px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  font-family: "Hiragino Kaku Gothic StdN", sans-serif;
+
+
+    .header-logo{
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        .logo{
+            border-radius: 50%;
+            color: white;
+            background-color: #35764B;
+            font-size: 10px;
+            padding: 0 6px;
+            height: 3vh;
+            display: flex;
+            align-items: center;
+            margin-right: 0.5vw;
+            p{
+                font-size: 10px;
+            }
+
+        }
+        p{
+        font-size: 17px;
+        font-weight: bold;
+
+        }     
+    }
+    .link{
+        text-decoration: none;
+        .link-div{
+            padding:  1px 8px;
+            border: none;
+            border-radius: 10px;
+            background-color: #62C188;
+            color: white;
+            font-weight: bold;
+            font-size: 13px;
+        }}
+        button{
+            padding: 10px;
+            border-radius: 10px;
+            color:#FF7B6F;
+            border: solid 1px #FF7B6F;
+            background-color: white;
+            font-weight: bold;
+            
+        }
+  
+}

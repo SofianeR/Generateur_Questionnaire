@@ -1,0 +1,15 @@
+// import style  containers
+@import url("./containers//Home/home.scss");
+@import url("./containers/AllBackOffice/Login/login.scss");
+@import url("./containers/AllBackOffice/BackOffice/backoffice.scss");
+@import url("./containers/AllBackOffice/CreateFormulaire/createformulaire.scss");
+
+// import style components
+@import url("./components/Header/header.scss");
+
+
+
+.App{
+  font-family: "Hiragino Kaku Gothic StdN", sans-serif;
+  padding: 0 40px;
+}

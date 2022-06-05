@@ -1,0 +1,32 @@
+.container-backOffice{
+    padding: 2vh 5vw;
+    height: 85vh;
+    h1{
+        color: #0D401D;
+    }
+    .formulaire-container{
+        display: flex;
+        flex-wrap: wrap;
+
+        .add-formulaire{
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 30%;
+            height: 29vh;
+            border-radius: 5px;
+            background: linear-gradient(270deg, #62C188 0%, rgba(98, 193, 136, 0.5) 98.55%);
+            p{
+                color: white;
+                margin-top: 5px;
+
+            }
+            .icon{
+                font-size: 30px;
+                font-weight: lighter;
+            }
+        }
+    }
+}
