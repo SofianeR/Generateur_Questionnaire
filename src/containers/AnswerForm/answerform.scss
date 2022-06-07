@@ -1,0 +1,44 @@
+.main-answer{
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    min-height: 80vh;
+    margin-top: 3%;
+    background-color: #EAF9EC;
+    padding: 0 3%;
+    border-radius: 10px;
+    .form-card{
+        width: 85%;
+        .form-type{
+            color: #62C188;
+            font-size: 13px;
+        }
+        .form-title{
+            font-size: 25px;
+            color: #10401E;
+            margin: 0;
+            // padding: 0 1%;
+        }
+        .form-count{
+            font-size: 14px;
+            color: #62C188;
+        }
+        .form-button{
+            padding: 1%;
+            border-radius:5%;
+            border: none;
+            color: white;
+            font-weight: bold;
+            background-color: #62C188;
+        }
+    }
+    .component-container{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+    }
+
+}

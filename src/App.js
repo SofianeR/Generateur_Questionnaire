@@ -1,11 +1,15 @@
 import "./App.scss";
 import React, { useState } from "react";
 
-// import containers
-import Home from "./containers/Home/Home";
+// import containers BackOffice
 import Login from "./containers/AllBackOffice/Login/Login";
 import BackOffice from "./containers/AllBackOffice/BackOffice/BackOffice";
 import CreateFormulaire from "./containers/AllBackOffice/CreateFormulaire/CreateFormulaire";
+import UpdateFormulaire from "./containers/AllBackOffice/UpdateFormulaire/UpdateFormulaire";
+
+// import Container Client
+import Home from "./containers/Home/Home";
+import AnswerForm from "./containers/AnswerForm/AnswerForm";
 
 // import component
 import Header from "./components/Header/Header";
@@ -14,13 +18,35 @@ import Header from "./components/Header/Header";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Cookies from "js-cookie";
 
-// import icons
+//////////// import icons ///////////////////////////////////
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faPlus, faChevronLeft } from "@fortawesome/free-solid-svg-icons";
-library.add(faPlus, faChevronLeft);
+import {
+  faPlus,
+  faChevronLeft,
+  faFileLines,
+  faStar,
+  faEnvelope,
+  faQuestion,
+  faTrash,
+  faAngleUp,
+  faAngleDown,
+  faArrowUpRightFromSquare,
+} from "@fortawesome/free-solid-svg-icons";
+
+library.add(
+  faPlus,
+  faChevronLeft,
+  faFileLines,
+  faStar,
+  faEnvelope,
+  faQuestion,
+  faTrash,
+  faAngleUp,
+  faAngleDown,
+  faArrowUpRightFromSquare
+);
 
 function App() {
-  // navigation
   // state //
   const [userConnexion, setUserConnexion] = useState(
     Cookies.get("connexion") || null
@@ -42,6 +68,7 @@ function App() {
       <div className="App">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/form/:slug" element={<AnswerForm />} />
         </Routes>
 
         {userConnexion ? (
@@ -54,6 +81,10 @@ function App() {
             <Route
               path="/backoffice/create"
               element={<CreateFormulaire setUser={setUser} />}
+            />
+            <Route
+              path="/backoffice/update/:id"
+              element={<UpdateFormulaire setUser={setUser} />}
             />
           </Routes>
         ) : (

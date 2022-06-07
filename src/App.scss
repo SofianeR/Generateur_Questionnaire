@@ -3,6 +3,8 @@
 @import url("./containers/AllBackOffice/Login/login.scss");
 @import url("./containers/AllBackOffice/BackOffice/backoffice.scss");
 @import url("./containers/AllBackOffice/CreateFormulaire/createformulaire.scss");
+@import url("./containers/AllBackOffice/UpdateFormulaire/updateFormulaire.scss");
+@import url("./containers/AnswerForm/answerform.scss");
 
 // import style components
 @import url("./components/Header/header.scss");
@@ -11,5 +13,5 @@
 
 .App{
   font-family: "Hiragino Kaku Gothic StdN", sans-serif;
-  padding: 0 40px;
+  padding: 0 2%;
 }
