@@ -1,12 +1,34 @@
-import React from "react";
+import React, { useState } from "react";
 
-const RateQuestionComponent = ({ pages, next }) => {
+import NavButtonsComponent from "../Nav-Buttons/NavButtonsComponent";
+
+const RateQuestionComponent = ({
+  pages,
+  next,
+  question,
+  setNext,
+  answersArray,
+  setAnswersArray,
+}) => {
+  const [rateAnswer, setRateAnswer] = useState(question.answer || "");
   return (
-    <div className="textComponent">
-      <p>Question {next + "/" + pages}</p>
+    <div className="component-container">
+      <p className="count-question">Question {next + "/" + pages}</p>
 
-      <h1>Rate</h1>
-      <textarea name="" id="" cols="30" rows="10"></textarea>
+      <p className="title-question">{question.question}</p>
+
+      <div className="module-component">
+        <textarea name="" id="" cols="30" rows="10"></textarea>
+      </div>
+
+      <NavButtonsComponent
+        setNext={setNext}
+        pages={pages}
+        answerState={rateAnswer}
+        question={question}
+        answersArray={answersArray}
+        setAnswersArray={setAnswersArray}
+      />
     </div>
   );
 };

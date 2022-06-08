@@ -1,12 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 
-const EmailQuestionComponent = ({ pages, next }) => {
+import NavButtonsComponent from "../Nav-Buttons/NavButtonsComponent";
+
+const EmailQuestionComponent = ({
+  pages,
+  next,
+  question,
+  setNext,
+  answersArray,
+  setAnswersArray,
+}) => {
+  const [emailAnswer, setEmailAnswer] = useState(question.answer || "");
   return (
-    <div className="textComponent">
-      <p>Question {next + "/" + pages}</p>
+    <div className="component-container">
+      <p className="count-question">Question {next + "/" + pages}</p>
 
-      <h1>Email</h1>
-      <input type="text" />
+      <p className="title-question">{question.question}</p>
+
+      <div className="module-component">
+        <input
+          type="text"
+          value={question.answer}
+          onChange={(e) => {
+            setEmailAnswer(e.target.value);
+          }}
+        />
+      </div>
+      <NavButtonsComponent
+        setNext={setNext}
+        pages={pages}
+        answerState={emailAnswer}
+        question={question}
+        answersArray={answersArray}
+        setAnswersArray={setAnswersArray}
+      />
     </div>
   );
 };

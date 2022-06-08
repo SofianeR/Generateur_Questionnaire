@@ -7,6 +7,7 @@ import TextQuestionComponent from "../../components/AnswerForm/TextQuestionCompo
 import RateQuesitonComponent from "../../components/AnswerForm/RateQuestionComponent/RateQuestionComponent";
 import EmailQuestionComponent from "../../components/AnswerForm/EmailQuestionComponent/EmailQuestionComponent";
 import ChoiceQuestionComponent from "../../components/AnswerForm/ChoiceQuestionComponent/ChoiceQuestionComponent";
+import FinalScreenQuestionComponent from "../../components/AnswerForm/FinalScreenForm/FinalScreenForm";
 
 const AnswerForm = () => {
   const { state } = useLocation();
@@ -16,6 +17,9 @@ const AnswerForm = () => {
 
   const [pages, setPages] = useState(0);
   const [next, setNext] = useState(0);
+
+  // state reponses component
+  const [answersArray, setAnswersArray] = useState([]);
 
   useEffect(() => {
     const fetchQuestion = () => {
@@ -40,122 +44,88 @@ const AnswerForm = () => {
     };
     fetchQuestion();
   }, []);
-
-  useEffect(() => {}, [next]);
+  console.log(answersArray);
   return (
     <div className="main-answer">
-      {questions &&
-        questions.map((item, index) => {
-          if (next === 0 && index === 0) {
-            return (
-              <div className="form-card" key={index}>
-                <p className="form-type">Sondage</p>
-                <p className="form-title">{formData.title}</p>
-                <p className="form-count">{pages} questions</p>
-                <button
-                  onClick={() => {
-                    setNext((prevState) => prevState + 1);
-                  }}
-                  className="form-button">
-                  Commencer
-                </button>
-              </div>
-            );
-          } else if (next === item.index + 1 && next <= pages) {
-            if (item.type === "textQuestion") {
+      {questions && next <= pages
+        ? questions.map((item, index) => {
+            if (next === 0 && index === 0) {
               return (
-                <div className="component-container" key={index}>
-                  <TextQuestionComponent pages={pages} next={next} />
+                <div className="form-card" key={index}>
+                  <p className="form-type">Sondage</p>
+                  <p className="form-title">{formData.title}</p>
+                  <p className="form-count">{pages} questions</p>
                   <button
                     onClick={() => {
-                      setNext((prevState) =>
-                        prevState < pages ? prevState + 1 : prevState
-                      );
-                    }}>
-                    click ++
-                  </button>
-                  <button
-                    onClick={() => {
-                      setNext((prevState) =>
-                        prevState > 0 ? prevState - 1 : prevState
-                      );
-                    }}>
-                    click --
+                      setNext((prevState) => prevState + 1);
+                    }}
+                    className="form-button">
+                    Commencer
                   </button>
                 </div>
               );
-            } else if (item.type === "rateQuestion") {
-              return (
-                <div className="component-container" key={index}>
-                  <RateQuesitonComponent pages={pages} next={next} />
-
-                  <button
-                    onClick={() => {
-                      setNext((prevState) =>
-                        prevState < pages ? prevState + 1 : prevState
-                      );
-                    }}>
-                    click ++
-                  </button>
-                  <button
-                    onClick={() => {
-                      setNext((prevState) =>
-                        prevState > 0 ? prevState - 1 : prevState
-                      );
-                    }}>
-                    click --
-                  </button>
-                </div>
-              );
-            } else if (item.type === "emailQuestion") {
-              return (
-                <div className="component-container" key={index}>
-                  <EmailQuestionComponent pages={pages} next={next} />
-
-                  <button
-                    onClick={() => {
-                      setNext((prevState) =>
-                        prevState < pages ? prevState + 1 : prevState
-                      );
-                    }}>
-                    click ++
-                  </button>
-                  <button
-                    onClick={() => {
-                      setNext((prevState) =>
-                        prevState > 0 ? prevState - 1 : prevState
-                      );
-                    }}>
-                    click --
-                  </button>
-                </div>
-              );
-            } else if (item.type === "choiceQuestion") {
-              return (
-                <div className="component-container" key={index}>
-                  <ChoiceQuestionComponent pages={pages} next={next} />
-
-                  <button
-                    onClick={() => {
-                      setNext((prevState) =>
-                        prevState < pages ? prevState + 1 : prevState
-                      );
-                    }}>
-                    click ++
-                  </button>
-                  <button
-                    onClick={() => {
-                      setNext((prevState) =>
-                        prevState > 0 ? prevState - 1 : prevState
-                      );
-                    }}>
-                    click --
-                  </button>
-                </div>
-              );
+            } else if (next === item.index + 1 && next <= pages) {
+              if (item.type === "textQuestion") {
+                return (
+                  <TextQuestionComponent
+                    key={index}
+                    pages={pages}
+                    next={next}
+                    question={item}
+                    setNext={setNext}
+                    answersArray={answersArray}
+                    setAnswersArray={setAnswersArray}
+                  />
+                );
+              } else if (item.type === "rateQuestion") {
+                return (
+                  <RateQuesitonComponent
+                    key={index}
+                    pages={pages}
+                    next={next}
+                    question={item}
+                    setNext={setNext}
+                    answersArray={answersArray}
+                    setAnswersArray={setAnswersArray}
+                  />
+                );
+              } else if (item.type === "emailQuestion") {
+                return (
+                  <EmailQuestionComponent
+                    key={index}
+                    pages={pages}
+                    next={next}
+                    question={item}
+                    setNext={setNext}
+                    answersArray={answersArray}
+                    setAnswersArray={setAnswersArray}
+                  />
+                );
+              } else if (item.type === "choiceQuestion") {
+                return (
+                  <ChoiceQuestionComponent
+                    key={index}
+                    pages={pages}
+                    next={next}
+                    question={item}
+                    setNext={setNext}
+                    answersArray={answersArray}
+                    setAnswersArray={setAnswersArray}
+                  />
+                );
+              }
             }
-          }
-        })}
+          })
+        : next === pages + 1 && (
+            <FinalScreenQuestionComponent
+              pages={pages}
+              next={next}
+              setNext={setNext}
+              answersArray={answersArray}
+              setAnswersArray={setAnswersArray}
+              formData={formData}
+            />
+          )}
     </div>
   );
 };
