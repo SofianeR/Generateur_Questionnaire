@@ -20,7 +20,6 @@ const Login = ({ setUser }) => {
       const response = await axios.post("http://localhost:4000/login", {
         password: password,
       });
-      console.log(response.data);
       if (response.data.message === "connecté") {
         setUser(response.data.message);
         navigate("/backoffice");

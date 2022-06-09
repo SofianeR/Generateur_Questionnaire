@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import NavButtonsComponent from "../Nav-Buttons/NavButtonsComponent";
 
@@ -7,10 +7,23 @@ const RateQuestionComponent = ({
   next,
   question,
   setNext,
-  answersArray,
-  setAnswersArray,
+  questionsArrayState,
+  setQuestionsArrayState,
+  formData,
 }) => {
-  const [rateAnswer, setRateAnswer] = useState(question.answer || "");
+  const [rateDisplay, setRateDisplay] = useState([]);
+
+  useEffect(() => {
+    const rateStar = async () => {
+      const displayArray = [...rateDisplay];
+      for (let i = 0; i < 5; i++) {
+        displayArray.push(<p key={i}>{i + 1}</p>);
+      }
+      setRateDisplay(displayArray);
+    };
+    rateStar();
+  }, []);
+
   return (
     <div className="component-container">
       <p className="count-question">Question {next + "/" + pages}</p>
@@ -18,16 +31,50 @@ const RateQuestionComponent = ({
       <p className="title-question">{question.question}</p>
 
       <div className="module-component">
-        <textarea name="" id="" cols="30" rows="10"></textarea>
+        <div className="rate-container">
+          {rateDisplay &&
+            rateDisplay.map((rate, index) => {
+              return (
+                <div
+                  className={
+                    question.answer - 1 === Number(rate.key)
+                      ? "selected-rate"
+                      : "rate-block"
+                  }
+                  style={
+                    Number(rate.key) === 0
+                      ? {
+                          borderTopLeftRadius: "10px",
+                          borderBottomLeftRadius: "10px",
+                        }
+                      : Number(rate.key) === rateDisplay.length - 1
+                      ? {
+                          borderBottomRightRadius: "10px",
+                          borderTopRightRadius: "10px",
+                        }
+                      : null
+                  }
+                  key={index}
+                  onClick={() => {
+                    const copy = [...questionsArrayState];
+                    copy[question.index].answer = index + 1;
+                    setQuestionsArrayState(copy);
+                  }}>
+                  {rate}
+                </div>
+              );
+            })}
+        </div>
       </div>
 
       <NavButtonsComponent
         setNext={setNext}
         pages={pages}
-        answerState={rateAnswer}
         question={question}
-        answersArray={answersArray}
-        setAnswersArray={setAnswersArray}
+        next={next}
+        questionsArrayState={questionsArrayState}
+        setQuestionsArrayState={setQuestionsArrayState}
+        formData={formData}
       />
     </div>
   );

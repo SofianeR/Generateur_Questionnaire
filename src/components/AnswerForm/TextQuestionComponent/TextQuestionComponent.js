@@ -7,10 +7,10 @@ const TextQuestionComponent = ({
   next,
   question,
   setNext,
-  answersArray,
-  setAnswersArray,
+  setQuestionsArrayState,
+  questionsArrayState,
+  formData,
 }) => {
-  const [textAnswer, setTextAnswer] = useState(question.answer || "");
   return (
     <div className="component-container">
       <p className="count-question">Question {next + "/" + pages}</p>
@@ -23,17 +23,21 @@ const TextQuestionComponent = ({
           rows="10"
           value={question.answer}
           onChange={(e) => {
-            setTextAnswer(e.target.value);
-            question.answer = e.target.value;
+            const copy = [...questionsArrayState];
+
+            copy[question.index].answer = e.target.value;
+
+            setQuestionsArrayState(copy);
           }}></textarea>
       </div>
       <NavButtonsComponent
         setNext={setNext}
         pages={pages}
-        answerState={textAnswer}
         question={question}
-        answersArray={answersArray}
-        setAnswersArray={setAnswersArray}
+        next={next}
+        questionsArrayState={questionsArrayState}
+        setQuestionsArrayState={setQuestionsArrayState}
+        formData={formData}
       />
     </div>
   );

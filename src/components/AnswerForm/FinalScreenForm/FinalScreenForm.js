@@ -1,15 +1,21 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const FinalScreenQuestionComponent = ({
   setNext,
+  next,
   pages,
-  answersArray,
-  setAnswersArray,
   formData,
+  questionsArrayState,
+  setQuestionsArrayState,
 }) => {
   const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log(formData);
+  }, []);
   return (
     <div className="component-container">
       <p className="title-question">Merci d'avoir repondu a ce questionnaire</p>
@@ -17,7 +23,11 @@ const FinalScreenQuestionComponent = ({
       <div className="nav-final-screen">
         <button
           onClick={() => {
-            setAnswersArray([]);
+            const copy = [...questionsArrayState];
+            copy.map((item) => {
+              item.answer = "";
+            });
+            setQuestionsArrayState(copy);
             setNext(0);
           }}>
           Recommencer

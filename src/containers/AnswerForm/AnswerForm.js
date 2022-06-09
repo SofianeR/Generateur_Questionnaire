@@ -31,6 +31,7 @@ const AnswerForm = () => {
           arrayForSetQuestions.push({
             index: item.index,
             question: item.question,
+            answer: "",
             type: keys,
           });
         });
@@ -41,10 +42,10 @@ const AnswerForm = () => {
       setPages(arrayForSetQuestions.length);
 
       setQuestion(arrayForSetQuestions);
+      console.log(questions);
     };
     fetchQuestion();
   }, []);
-  console.log(answersArray);
   return (
     <div className="main-answer">
       {questions && next <= pages
@@ -71,10 +72,11 @@ const AnswerForm = () => {
                     key={index}
                     pages={pages}
                     next={next}
-                    question={item}
                     setNext={setNext}
-                    answersArray={answersArray}
-                    setAnswersArray={setAnswersArray}
+                    question={item}
+                    questionsArrayState={questions}
+                    setQuestionsArrayState={setQuestion}
+                    formData={formData}
                   />
                 );
               } else if (item.type === "rateQuestion") {
@@ -85,8 +87,9 @@ const AnswerForm = () => {
                     next={next}
                     question={item}
                     setNext={setNext}
-                    answersArray={answersArray}
-                    setAnswersArray={setAnswersArray}
+                    questionsArrayState={questions}
+                    setQuestionsArrayState={setQuestion}
+                    formData={formData}
                   />
                 );
               } else if (item.type === "emailQuestion") {
@@ -97,8 +100,9 @@ const AnswerForm = () => {
                     next={next}
                     question={item}
                     setNext={setNext}
-                    answersArray={answersArray}
-                    setAnswersArray={setAnswersArray}
+                    questionsArrayState={questions}
+                    setQuestionsArrayState={setQuestion}
+                    formData={formData}
                   />
                 );
               } else if (item.type === "choiceQuestion") {
@@ -109,8 +113,9 @@ const AnswerForm = () => {
                     next={next}
                     question={item}
                     setNext={setNext}
-                    answersArray={answersArray}
-                    setAnswersArray={setAnswersArray}
+                    questionsArrayState={questions}
+                    setQuestionsArrayState={setQuestion}
+                    formData={formData}
                   />
                 );
               }
@@ -121,9 +126,9 @@ const AnswerForm = () => {
               pages={pages}
               next={next}
               setNext={setNext}
-              answersArray={answersArray}
-              setAnswersArray={setAnswersArray}
               formData={formData}
+              questionsArrayState={questions}
+              setQuestionsArrayState={setQuestion}
             />
           )}
     </div>

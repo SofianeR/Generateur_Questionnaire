@@ -1,58 +1,42 @@
-import React from "react";
+import React, { useEffect } from "react";
+import axios from "axios";
 
 const NavButtonsComponent = ({
   setNext,
+  next,
   pages,
-  answersArray,
-  setAnswersArray,
-  answerState,
+  questionsArrayState,
+  setQuestionsArrayState,
   question,
+  formData,
 }) => {
-  const storeAnswer = () => {
-    const copyAnswerArray = [...answersArray];
-    const index = copyAnswerArray.length;
+  const sendResponseServer = async () => {
+    try {
+      const copy = [...questionsArrayState];
+      copy.map((item) => {
+        if (item.answer === "") {
+          item.answer = "Pas de réponse";
+        }
+      });
 
-    // let answerToSave;
+      // console.log(questionsArrayState);
 
-    // if (!answerState) {
-    //   answerToSave = "Pas de reponse";
-    // } else {
-    //   answerToSave = answerState;
-    // }
-
-    copyAnswerArray.push({
-      index: index,
-      question: question.question,
-      type: question.type,
-      answer: answerState,
-    });
-    setAnswersArray(copyAnswerArray);
+      const response = await axios.post("http://localhost:4000/reponseForm", {
+        title: formData.title,
+        reponses: questionsArrayState,
+        formulaire: formData,
+      });
+      // console.log(response.data);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   return (
     <div className="nav-questions">
       <button
-        onClick={(e) => {
-          e.preventDefault();
-          const copyAnswerArray = [...answersArray];
-
-          const isAlreadyAnswered = copyAnswerArray.find(
-            (elmt) => elmt.answer === answerState
-          );
-
-          if (isAlreadyAnswered) {
-            console.log("already =>", isAlreadyAnswered);
-          } else {
-            console.log("not yest");
-          }
-        }}>
-        console
-      </button>
-      <button
         onClick={() => {
           setNext((prevState) => (prevState > 0 ? prevState - 1 : prevState));
-
-          console.log(answerState);
         }}>
         Précédent
       </button>
@@ -62,7 +46,9 @@ const NavButtonsComponent = ({
           setNext((prevState) =>
             prevState < pages + 1 ? prevState + 1 : prevState
           );
-          storeAnswer();
+          if (next === pages) {
+            sendResponseServer();
+          }
         }}>
         Suivant
       </button>

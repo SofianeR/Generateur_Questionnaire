@@ -115,7 +115,6 @@ const UpdateFormulaire = () => {
 
   const updateForm = async () => {
     setErrorMessage("");
-    console.log("click");
     try {
       if (titleForm.length > 6) {
         questionDisplay.map((question, index) => {
@@ -181,7 +180,6 @@ const UpdateFormulaire = () => {
           choiceQuestion,
           emailQuestion,
         });
-        console.log(response.data);
 
         navigate("/backoffice");
       } else {

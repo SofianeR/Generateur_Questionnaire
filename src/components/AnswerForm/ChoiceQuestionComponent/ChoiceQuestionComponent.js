@@ -7,14 +7,12 @@ const ChoiceQuestionComponent = ({
   next,
   question,
   setNext,
-  answersArray,
-  setAnswersArray,
+  questionsArrayState,
+  setQuestionsArrayState,
+  formData,
 }) => {
-  const [choiceAnswer, setChoiceAnswer] = useState(question.answer || "");
-
   return (
     <div className="component-container">
-      <button onClick={() => {}}>console</button>
       <p className="count-question">Question {next + "/" + pages}</p>
 
       <p className="title-question">{question.question}</p>
@@ -22,19 +20,24 @@ const ChoiceQuestionComponent = ({
       <div className="module-component">
         <div className="button-choice">
           <button
-            className={choiceAnswer ? "selected" : null}
+            className={question.answer ? "selected" : null}
             onClick={() => {
-              if (!choiceAnswer) {
-                setChoiceAnswer(true);
+              const copy = [...questionsArrayState];
+              if (!copy[question.index].answer) {
+                copy[question.index].answer = true;
+                setQuestionsArrayState(copy);
               }
             }}>
             Oui
           </button>
           <button
-            className={choiceAnswer ? "idle" : "selected"}
+            className={question.answer ? "idle" : "selected"}
             onClick={() => {
-              if (choiceAnswer) {
-                setChoiceAnswer(false);
+              const copy = [...questionsArrayState];
+
+              if (copy[question.index].answer) {
+                copy[question.index].answer = false;
+                setQuestionsArrayState(copy);
               }
             }}>
             Non
@@ -45,10 +48,11 @@ const ChoiceQuestionComponent = ({
       <NavButtonsComponent
         setNext={setNext}
         pages={pages}
-        answerState={choiceAnswer}
         question={question}
-        answersArray={answersArray}
-        setAnswersArray={setAnswersArray}
+        next={next}
+        questionsArrayState={questionsArrayState}
+        setQuestionsArrayState={setQuestionsArrayState}
+        formData={formData}
       />
     </div>
   );

@@ -36,7 +36,6 @@ const Home = () => {
       ) : (
         listForm &&
         listForm.map((form, index) => {
-          console.log(form);
           return (
             <Link
               state={{ formData: form }}

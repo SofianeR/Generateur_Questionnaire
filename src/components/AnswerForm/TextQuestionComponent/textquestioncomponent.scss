@@ -57,6 +57,35 @@
                 font-weight: bold;
             }
         }
+        .rate-container{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            // border: solid #10401E 1px;
+            width: 40%;
+            border-radius: 10px;
+            .rate-block{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border: solid #10401E 1px;
+            flex: 1;
+            cursor: pointer;
+
+            }
+            .selected-rate{
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex:1;
+                border: solid #10401E 1px;
+                background-color: #10401E;
+                color: white;
+                cursor: pointer;
+
+            }
+        }
+
       }
     .nav-questions{
         display: flex;

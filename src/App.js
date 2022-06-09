@@ -6,6 +6,7 @@ import Login from "./containers/AllBackOffice/Login/Login";
 import BackOffice from "./containers/AllBackOffice/BackOffice/BackOffice";
 import CreateFormulaire from "./containers/AllBackOffice/CreateFormulaire/CreateFormulaire";
 import UpdateFormulaire from "./containers/AllBackOffice/UpdateFormulaire/UpdateFormulaire";
+import Answers from "./containers/AllBackOffice/Answers/Answers";
 
 // import Container Client
 import Home from "./containers/Home/Home";
@@ -85,6 +86,10 @@ function App() {
             <Route
               path="/backoffice/update/:id"
               element={<UpdateFormulaire setUser={setUser} />}
+            />
+            <Route
+              path="/backoffice/reponses/:id"
+              element={<Answers setUser={setUser} />}
             />
           </Routes>
         ) : (

@@ -7,10 +7,10 @@ const EmailQuestionComponent = ({
   next,
   question,
   setNext,
-  answersArray,
-  setAnswersArray,
+  questionsArrayState,
+  setQuestionsArrayState,
+  formData,
 }) => {
-  const [emailAnswer, setEmailAnswer] = useState(question.answer || "");
   return (
     <div className="component-container">
       <p className="count-question">Question {next + "/" + pages}</p>
@@ -19,20 +19,24 @@ const EmailQuestionComponent = ({
 
       <div className="module-component">
         <input
-          type="text"
+          type="email"
           value={question.answer}
           onChange={(e) => {
-            setEmailAnswer(e.target.value);
+            const copy = [...questionsArrayState];
+            copy[question.index].answer = e.target.value;
+
+            setQuestionsArrayState(copy);
           }}
         />
       </div>
       <NavButtonsComponent
         setNext={setNext}
         pages={pages}
-        answerState={emailAnswer}
         question={question}
-        answersArray={answersArray}
-        setAnswersArray={setAnswersArray}
+        next={next}
+        questionsArrayState={questionsArrayState}
+        setQuestionsArrayState={setQuestionsArrayState}
+        formData={formData}
       />
     </div>
   );

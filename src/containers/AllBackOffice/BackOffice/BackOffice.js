@@ -16,7 +16,6 @@ const BackOffice = () => {
       setIsLoading(true);
       try {
         const response = await axios.get("http://localhost:4000/formList");
-        console.log(response.data);
         setFormulaireData(response.data);
       } catch (error) {
         console.log(error.message);
@@ -54,7 +53,13 @@ const BackOffice = () => {
                     }}>
                     éditer
                   </button>
-                  <button className="answer-button">Voir les reponses</button>
+                  <button
+                    className="answer-button"
+                    onClick={() => {
+                      navigate(`/backoffice/reponses/${item._id}`);
+                    }}>
+                    Voir les reponses
+                  </button>
                 </div>
               </div>
             );
