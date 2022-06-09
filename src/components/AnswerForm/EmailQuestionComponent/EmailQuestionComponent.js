@@ -10,6 +10,7 @@ const EmailQuestionComponent = ({
   questionsArrayState,
   setQuestionsArrayState,
   formData,
+  readOnly,
 }) => {
   return (
     <div className="component-container">
@@ -19,6 +20,7 @@ const EmailQuestionComponent = ({
 
       <div className="module-component">
         <input
+          readOnly={readOnly}
           type="email"
           value={question.answer}
           onChange={(e) => {

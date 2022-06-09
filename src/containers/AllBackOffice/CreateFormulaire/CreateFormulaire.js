@@ -1,9 +1,12 @@
 import React, { useState, useRef, useEffect } from "react";
 
+import theme from "../../../assets/themeColors.json";
+
 // import package
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cookies from "js-cookie";
+import { CirclePicker, ChromePicker } from "react-color";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -13,6 +16,12 @@ const CreateFormulaire = () => {
 
   // state error display
   const [errorMessage, setErrorMessage] = useState("");
+
+  // state modal perso
+  const [showTheme, setShowTheme] = useState(false);
+
+  // state theme color
+  const [primaryTheme, setPrimaryTheme] = useState("");
 
   // state title form
   const [titleForm, setTitleForm] = useState("");
@@ -196,6 +205,18 @@ const CreateFormulaire = () => {
     }
   };
 
+  useEffect(() => {
+    const saveColors = () => {
+      const arrayPrimary = [];
+      theme.map((item) => {
+        arrayPrimary.push(item.primary);
+      });
+
+      setPrimaryTheme(arrayPrimary);
+    };
+    saveColors();
+  }, []);
+
   return (
     <div className="create-container">
       <form
@@ -215,10 +236,11 @@ const CreateFormulaire = () => {
             e.preventDefault();
             console.log(
               // questions,
-              textQuestion,
-              rateQuestion,
-              choiceQuestion,
-              emailQuestion
+              // textQuestion,
+              // rateQuestion,
+              // choiceQuestion,
+              // emailQuestion
+              theme
             );
           }}>
           console
@@ -258,151 +280,172 @@ const CreateFormulaire = () => {
       <div className="main-create">
         <div className="main-title">
           <h3 className="question">Questions</h3>
-          <h3 className="custom">Personnaliser le formulaire</h3>
+          <h3
+            onClick={() => {
+              setShowTheme(!showTheme);
+              console.log(showTheme);
+            }}
+            className="custom">
+            Personnaliser le formulaire
+          </h3>
         </div>
-        {questions &&
-          questions.map((item, index) => {
-            return (
-              <div className="question-div" key={index}>
-                <div
-                  className="type"
-                  style={{ backgroundColor: item.backGround }}>
-                  <p>{`${index + 1}`}</p>
-                  <p>-</p>
-                  <FontAwesomeIcon className="icon" icon={item.icon} />
-                </div>
-                <div className="input-div">
-                  <input
-                    type="text"
-                    value={item.value}
-                    onChange={(e) => {
-                      if (item.type === "text") {
-                        const copy = [...textQuestion];
+        {showTheme ? (
+          (console.log(primaryTheme),
+          (
+            <div>
+              <CirclePicker colors={primaryTheme} circleSize={100} />
 
-                        copy[item.index].question = e.target.value;
-                        // copy[item.index].index = index;
+              <p>theme</p>
+            </div>
+          ))
+        ) : (
+          <div>
+            {questions &&
+              questions.map((item, index) => {
+                return (
+                  <div className="question-div" key={index}>
+                    <div
+                      className="type"
+                      style={{ backgroundColor: item.backGround }}>
+                      <p>{`${index + 1}`}</p>
+                      <p>-</p>
+                      <FontAwesomeIcon className="icon" icon={item.icon} />
+                    </div>
+                    <div className="input-div">
+                      <input
+                        type="text"
+                        value={item.value}
+                        onChange={(e) => {
+                          if (item.type === "text") {
+                            const copy = [...textQuestion];
 
-                        item.value = e.target.value;
-                        item.index = index;
+                            copy[item.index].question = e.target.value;
+                            // copy[item.index].index = index;
 
-                        item.state(copy);
-                      } else if (item.type === "rate") {
-                        const copy = [...rateQuestion];
+                            item.value = e.target.value;
+                            item.index = index;
 
-                        copy[item.index].question = e.target.value;
-                        // copy[item.index].index = index;
+                            item.state(copy);
+                          } else if (item.type === "rate") {
+                            const copy = [...rateQuestion];
 
-                        item.value = e.target.value;
-                        // item.index = index;
+                            copy[item.index].question = e.target.value;
+                            // copy[item.index].index = index;
 
-                        item.state(copy);
-                      } else if (item.type === "email") {
-                        const copy = [...emailQuestion];
+                            item.value = e.target.value;
+                            // item.index = index;
 
-                        copy[item.index].question = e.target.value;
-                        // copy[item.index].index = index;
+                            item.state(copy);
+                          } else if (item.type === "email") {
+                            const copy = [...emailQuestion];
 
-                        item.value = e.target.value;
-                        // item.index = index;
+                            copy[item.index].question = e.target.value;
+                            // copy[item.index].index = index;
 
-                        item.state(copy);
-                      } else if (item.type === "choice") {
-                        const copy = [...choiceQuestion];
+                            item.value = e.target.value;
+                            // item.index = index;
 
-                        copy[item.index].question = e.target.value;
-                        // copy[item.index].index = index;
+                            item.state(copy);
+                          } else if (item.type === "choice") {
+                            const copy = [...choiceQuestion];
 
-                        item.value = e.target.value;
-                        // item.index = index;
+                            copy[item.index].question = e.target.value;
+                            // copy[item.index].index = index;
 
-                        item.state(copy);
-                      }
-                    }}
-                  />
-                </div>
-                <div className="question-buttons">
-                  <div className="up-chevron">
-                    <FontAwesomeIcon
-                      className="icon"
-                      icon={"fa-angle-up"}
-                      onClick={() => {
-                        const copyQuestions = [...questions];
-                        if (index > 0) {
-                          copyQuestions.splice(index, 1);
-                          copyQuestions.splice(index - 1, 0, item);
-                          setQuestions(copyQuestions);
-                        }
-                      }}
-                    />
+                            item.value = e.target.value;
+                            // item.index = index;
+
+                            item.state(copy);
+                          }
+                        }}
+                      />
+                    </div>
+                    <div className="question-buttons">
+                      <div className="up-chevron">
+                        <FontAwesomeIcon
+                          className="icon"
+                          icon={"fa-angle-up"}
+                          onClick={() => {
+                            const copyQuestions = [...questions];
+                            if (index > 0) {
+                              copyQuestions.splice(index, 1);
+                              copyQuestions.splice(index - 1, 0, item);
+                              setQuestions(copyQuestions);
+                            }
+                          }}
+                        />
+                      </div>
+                      <div className="down-chevron">
+                        <FontAwesomeIcon
+                          className="icon"
+                          icon={"fa-angle-down"}
+                          onClick={() => {
+                            const copyQuestions = [...questions];
+                            if (index < questions.length - 1) {
+                              copyQuestions.splice(index, 1);
+                              copyQuestions.splice(index + 1, 0, item);
+                            }
+                            setQuestions(copyQuestions);
+                          }}
+                        />
+                      </div>
+                      <div className="delete-button">
+                        <FontAwesomeIcon
+                          className="icon"
+                          icon={"fa-trash"}
+                          onClick={() => {
+                            const copyQuestions = [...questions];
+                            copyQuestions.splice(index, 1);
+                            setQuestions(copyQuestions);
+
+                            if (item.type === "text") {
+                              const copy = [...textQuestion];
+                              copy.splice(item.index, 1);
+                              item.state(copy);
+                            } else if (item.type === "rate") {
+                              const copy = [...rateQuestion];
+                              copy.splice(item.index, 1);
+                              item.state(copy);
+                            } else if (item.type === "email") {
+                              const copy = [...emailQuestion];
+                              copy.splice(item.index, 1);
+                              item.state(copy);
+                            } else if (item.type === "choice") {
+                              const copy = [...choiceQuestion];
+                              copy.splice(item.index, 1);
+                              item.state(copy);
+                            }
+                          }}
+                        />
+                      </div>
+                    </div>
                   </div>
-                  <div className="down-chevron">
-                    <FontAwesomeIcon
-                      className="icon"
-                      icon={"fa-angle-down"}
-                      onClick={() => {
-                        const copyQuestions = [...questions];
-                        if (index < questions.length - 1) {
-                          copyQuestions.splice(index, 1);
-                          copyQuestions.splice(index + 1, 0, item);
-                        }
-                        setQuestions(copyQuestions);
-                      }}
-                    />
-                  </div>
-                  <div className="delete-button">
-                    <FontAwesomeIcon
-                      className="icon"
-                      icon={"fa-trash"}
-                      onClick={() => {
-                        const copyQuestions = [...questions];
-                        copyQuestions.splice(index, 1);
-                        setQuestions(copyQuestions);
+                );
+              })}
 
-                        if (item.type === "text") {
-                          const copy = [...textQuestion];
-                          copy.splice(item.index, 1);
-                          item.state(copy);
-                        } else if (item.type === "rate") {
-                          const copy = [...rateQuestion];
-                          copy.splice(item.index, 1);
-                          item.state(copy);
-                        } else if (item.type === "email") {
-                          const copy = [...emailQuestion];
-                          copy.splice(item.index, 1);
-                          item.state(copy);
-                        } else if (item.type === "choice") {
-                          const copy = [...choiceQuestion];
-                          copy.splice(item.index, 1);
-                          item.state(copy);
-                        }
-                      }}
-                    />
-                  </div>
-                </div>
+            <div className="add-question">
+              <div className="question-item" onClick={addTextQuestion}>
+                <FontAwesomeIcon className="icon" icon={"fa-file-lines"} />
+                <p>Ajouter une question Texte</p>
               </div>
-            );
-          })}
-        <div className="add-question">
-          <div className="question-item" onClick={addTextQuestion}>
-            <FontAwesomeIcon className="icon" icon={"fa-file-lines"} />
-            <p>Ajouter une question Texte</p>
-          </div>
 
-          <div className="question-item" onClick={addRateQuestion}>
-            <FontAwesomeIcon className="icon" icon={"fa-star"} />
-            <p>Ajouter une question Note</p>
-          </div>
+              <div className="question-item" onClick={addRateQuestion}>
+                <FontAwesomeIcon className="icon" icon={"fa-star"} />
+                <p>Ajouter une question Note</p>
+              </div>
 
-          <div className="question-item" onClick={addEmailQuestion}>
-            <FontAwesomeIcon className="icon" icon={"fa-envelope"} />
-            <p>Ajouter une question Email</p>
-          </div>
+              <div className="question-item" onClick={addEmailQuestion}>
+                <FontAwesomeIcon className="icon" icon={"fa-envelope"} />
+                <p>Ajouter une question Email</p>
+              </div>
 
-          <div className="question-item" onClick={addChoiceQuestion}>
-            <FontAwesomeIcon className="icon" icon={"fa-question"} />
-            <p>Ajouter une question Oui/Non</p>
+              <div className="question-item" onClick={addChoiceQuestion}>
+                <FontAwesomeIcon className="icon" icon={"fa-question"} />
+                <p>Ajouter une question Oui/Non</p>
+              </div>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

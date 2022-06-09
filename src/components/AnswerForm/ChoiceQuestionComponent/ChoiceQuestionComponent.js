@@ -10,6 +10,7 @@ const ChoiceQuestionComponent = ({
   questionsArrayState,
   setQuestionsArrayState,
   formData,
+  readOnly,
 }) => {
   return (
     <div className="component-container">
@@ -22,10 +23,12 @@ const ChoiceQuestionComponent = ({
           <button
             className={question.answer ? "selected" : null}
             onClick={() => {
-              const copy = [...questionsArrayState];
-              if (!copy[question.index].answer) {
-                copy[question.index].answer = true;
-                setQuestionsArrayState(copy);
+              if (!readOnly) {
+                const copy = [...questionsArrayState];
+                if (!copy[question.index].answer) {
+                  copy[question.index].answer = true;
+                  setQuestionsArrayState(copy);
+                }
               }
             }}>
             Oui
@@ -33,11 +36,13 @@ const ChoiceQuestionComponent = ({
           <button
             className={question.answer ? "idle" : "selected"}
             onClick={() => {
-              const copy = [...questionsArrayState];
+              if (!readOnly) {
+                const copy = [...questionsArrayState];
 
-              if (copy[question.index].answer) {
-                copy[question.index].answer = false;
-                setQuestionsArrayState(copy);
+                if (copy[question.index].answer) {
+                  copy[question.index].answer = false;
+                  setQuestionsArrayState(copy);
+                }
               }
             }}>
             Non

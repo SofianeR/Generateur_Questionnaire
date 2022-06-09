@@ -77,6 +77,7 @@ const AnswerForm = () => {
                     questionsArrayState={questions}
                     setQuestionsArrayState={setQuestion}
                     formData={formData}
+                    readOnly={false}
                   />
                 );
               } else if (item.type === "rateQuestion") {
@@ -90,6 +91,7 @@ const AnswerForm = () => {
                     questionsArrayState={questions}
                     setQuestionsArrayState={setQuestion}
                     formData={formData}
+                    readOnly={false}
                   />
                 );
               } else if (item.type === "emailQuestion") {
@@ -103,6 +105,7 @@ const AnswerForm = () => {
                     questionsArrayState={questions}
                     setQuestionsArrayState={setQuestion}
                     formData={formData}
+                    readOnly={false}
                   />
                 );
               } else if (item.type === "choiceQuestion") {
@@ -116,6 +119,7 @@ const AnswerForm = () => {
                     questionsArrayState={questions}
                     setQuestionsArrayState={setQuestion}
                     formData={formData}
+                    readOnly={false}
                   />
                 );
               }
@@ -129,6 +133,7 @@ const AnswerForm = () => {
               formData={formData}
               questionsArrayState={questions}
               setQuestionsArrayState={setQuestion}
+              readOnly={false}
             />
           )}
     </div>

@@ -10,6 +10,7 @@ const TextQuestionComponent = ({
   setQuestionsArrayState,
   questionsArrayState,
   formData,
+  readOnly,
 }) => {
   return (
     <div className="component-container">
@@ -18,6 +19,7 @@ const TextQuestionComponent = ({
       <p className="title-question">{question.question}</p>
       <div className="module-component">
         <textarea
+          readOnly={readOnly}
           name="reponse-text"
           cols="30"
           rows="10"

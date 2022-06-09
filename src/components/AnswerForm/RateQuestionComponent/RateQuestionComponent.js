@@ -10,6 +10,7 @@ const RateQuestionComponent = ({
   questionsArrayState,
   setQuestionsArrayState,
   formData,
+  readOnly,
 }) => {
   const [rateDisplay, setRateDisplay] = useState([]);
 
@@ -56,9 +57,11 @@ const RateQuestionComponent = ({
                   }
                   key={index}
                   onClick={() => {
-                    const copy = [...questionsArrayState];
-                    copy[question.index].answer = index + 1;
-                    setQuestionsArrayState(copy);
+                    if (!readOnly) {
+                      const copy = [...questionsArrayState];
+                      copy[question.index].answer = index + 1;
+                      setQuestionsArrayState(copy);
+                    }
                   }}>
                   {rate}
                 </div>
