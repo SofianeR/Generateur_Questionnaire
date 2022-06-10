@@ -20,7 +20,7 @@
     "sass": "^1.52.2",
     "web-vitals": "^2.1.0"
   },
-  "scripts": {
+    "scripts": {
     "start": "CI=react-scripts start",
     "build": "CI=react-scripts build",
     "test": "react-scripts test",
