@@ -10,6 +10,19 @@
     position: relative;
     .form-card{
         width: 85%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .img-form{
+            margin-left: 5%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            img{
+                height: 90%;
+                width: 90%;
+            } 
+        }
         .form-type{
             color: #62C188;
             font-size: 13px;
@@ -25,7 +38,7 @@
             color: #62C188;
         }
         .form-button{
-            padding: 1%;
+            padding: 5%;
             border-radius:5%;
             border: none;
             color: white;

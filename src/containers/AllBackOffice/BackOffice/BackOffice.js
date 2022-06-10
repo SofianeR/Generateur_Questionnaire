@@ -56,7 +56,9 @@ const BackOffice = () => {
                   <button
                     className="answer-button"
                     onClick={() => {
-                      navigate(`/backoffice/reponses/${item._id}`);
+                      navigate(`/backoffice/reponses/${item._id}`, {
+                        state: item,
+                      });
                     }}>
                     Voir les reponses
                   </button>

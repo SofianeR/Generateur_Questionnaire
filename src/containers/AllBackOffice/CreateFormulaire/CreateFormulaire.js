@@ -1,11 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
-import theme from "../../../assets/themeColors.json";
+import themeColors from "../../../assets/themeColors.json";
 
 // import package
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import Cookies from "js-cookie";
 import { CirclePicker, ChromePicker } from "react-color";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -14,6 +13,8 @@ const CreateFormulaire = () => {
   // navigation
   const navigate = useNavigate();
 
+  //
+  const [isLoading, setIsLoading] = useState(false);
   // state error display
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -21,7 +22,11 @@ const CreateFormulaire = () => {
   const [showTheme, setShowTheme] = useState(false);
 
   // state theme color
-  const [primaryTheme, setPrimaryTheme] = useState("");
+  const [primaryTheme, setPrimaryTheme] = useState();
+  const [selectedTheme, setSelectedTheme] = useState(themeColors[0]);
+
+  // state theme photo
+  const [photoTheme, setPhotoTheme] = useState();
 
   // state title form
   const [titleForm, setTitleForm] = useState("");
@@ -29,172 +34,127 @@ const CreateFormulaire = () => {
   // state questions to display
   const [questions, setQuestions] = useState([]);
 
-  // state value / type question
-  const [textQuestion, setTextQuestion] = useState([]);
-  const [rateQuestion, setRateQuestion] = useState([]);
-  const [emailQuestion, setEmailQuestion] = useState([]);
-  const [choiceQuestion, setChoiceQuestion] = useState([]);
-
   const addTextQuestion = () => {
     const arrayQuestionsForm = [...questions];
-    const arrayTextQuestion = [...textQuestion];
-
-    const index = textQuestion.length;
-
-    let valueNewQuestion = { index: "", question: "" };
-
-    arrayTextQuestion.push(valueNewQuestion);
-    setTextQuestion(arrayTextQuestion);
+    const index = arrayQuestionsForm.length;
 
     arrayQuestionsForm.push({
-      index: index,
-      value: "",
-      type: "text",
       icon: "fa-file-lines",
-      state: setTextQuestion,
-      array: textQuestion,
       backGround: "#F5BA49",
+
+      question: {
+        index: index,
+
+        value: "",
+        type: "text",
+      },
     });
     setQuestions(arrayQuestionsForm);
   };
 
   const addRateQuestion = () => {
     const arrayQuestionsForm = [...questions];
-    const arrayRateQuestion = [...rateQuestion];
 
-    const index = rateQuestion.length;
-
-    let valueNewQuestion = { index: "", question: "" };
-
-    arrayRateQuestion.push(valueNewQuestion);
-    setRateQuestion(arrayRateQuestion);
+    const index = arrayQuestionsForm.length;
 
     arrayQuestionsForm.push({
-      index: index,
-      value: "",
-      type: "rate",
       icon: "fa-star",
-      state: setRateQuestion,
-      array: textQuestion,
       backGround: "#F09F97",
+
+      question: {
+        index: index,
+
+        value: "",
+        type: "rate",
+      },
     });
     setQuestions(arrayQuestionsForm);
   };
 
   const addEmailQuestion = () => {
     const arrayQuestionsForm = [...questions];
-    const arrayEmailQuestion = [...emailQuestion];
 
-    const index = emailQuestion.length;
-
-    let valueNewQuestion = { index: "", question: "" };
-
-    arrayEmailQuestion.push(valueNewQuestion);
-    setEmailQuestion(arrayEmailQuestion);
+    const index = arrayQuestionsForm.length;
 
     arrayQuestionsForm.push({
-      index: index,
-      value: "",
-      type: "email",
       icon: "fa-envelope",
-      state: setEmailQuestion,
-      array: emailQuestion,
       backGround: "#79A5DD",
+
+      question: {
+        index: index,
+
+        value: "",
+        type: "email",
+      },
     });
     setQuestions(arrayQuestionsForm);
   };
 
   const addChoiceQuestion = () => {
     const arrayQuestionsForm = [...questions];
-    const arrayChoiceQuestion = [...choiceQuestion];
 
-    const index = choiceQuestion.length;
-
-    let valueNewQuestion = { index: "", question: "" };
-
-    arrayChoiceQuestion.push(valueNewQuestion);
-    setChoiceQuestion(arrayChoiceQuestion);
+    const index = arrayQuestionsForm.length;
 
     arrayQuestionsForm.push({
-      index: index,
-      value: "",
-      type: "choice",
       icon: "fa-question",
-      state: setChoiceQuestion,
-      array: choiceQuestion,
       backGround: "#9ACE83",
+
+      question: {
+        index: index,
+
+        value: "",
+        type: "choice",
+      },
     });
     setQuestions(arrayQuestionsForm);
   };
 
   // function to send form to database
   const saveForm = async () => {
-    setErrorMessage("");
+    setIsLoading(true);
+    setErrorMessage("requete en cours ...");
     try {
       if (titleForm.length > 6) {
-        questions.map((question, index) => {
-          if (question.type === "text") {
-            const copy = [...textQuestion];
-            copy[question.index].index = index;
-            question.state(copy);
-          } else if (question.type === "rate") {
-            const copy = [...rateQuestion];
-            copy[question.index].index = index;
-            question.state(copy);
-          }
-          if (question.type === "choice") {
-            const copy = [...choiceQuestion];
-            copy[question.index].index = index;
-            question.state(copy);
-          }
-          if (question.type === "email") {
-            const copy = [...emailQuestion];
-            copy[question.index].index = index;
-            question.state(copy);
-          }
-        });
+        const formData = new FormData();
 
-        for (let i = 0; i < textQuestion.length; i++) {
-          if (!textQuestion[i]) {
-            return setErrorMessage(
-              "un des champs d'un question texte est vide"
-            );
-          }
-        }
+        const arrayQuestions = [];
 
-        for (let i = 0; i < rateQuestion.length; i++) {
-          if (!rateQuestion[i]) {
-            return setErrorMessage("un des champs d'un question note est vide");
+        for (let i = 0; i < questions.length; i++) {
+          if (questions[i].question.value === "") {
+            return setErrorMessage("une des question est vide");
           }
-        }
+          questions[i].question.index = i;
 
-        for (let i = 0; i < emailQuestion.length; i++) {
-          if (!emailQuestion[i]) {
-            return setErrorMessage(
-              "un des champs d'un question Email est vide"
-            );
-          }
-        }
-
-        for (let i = 0; i < choiceQuestion.length; i++) {
-          if (!choiceQuestion[i]) {
-            return setErrorMessage(
-              "un des champs d'un question OUI/NON est vide"
-            );
-          }
+          arrayQuestions.push(questions[i].question);
         }
 
         const slug = titleForm.split(" ").join("-");
 
-        const response = await axios.post("http://localhost:4000/createForm", {
-          slug,
-          titleForm,
-          textQuestion,
-          rateQuestion,
-          choiceQuestion,
-          emailQuestion,
-        });
-        // console.log(response.data);
+        formData.append("slug", slug);
+        formData.append("titleForm", titleForm);
+
+        formData.append("questions", JSON.stringify(arrayQuestions));
+
+        formData.append("theme", JSON.stringify(selectedTheme));
+
+        if (photoTheme) {
+          formData.append("picture", photoTheme);
+        }
+
+        try {
+          const response = await axios.post(
+            "http://localhost:4000/createForm",
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
+          console.log(response.data);
+        } catch (error) {
+          setErrorMessage(error.message);
+        }
 
         navigate("/backoffice");
       } else {
@@ -203,12 +163,13 @@ const CreateFormulaire = () => {
     } catch (error) {
       setErrorMessage(error.message);
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {
     const saveColors = () => {
       const arrayPrimary = [];
-      theme.map((item) => {
+      themeColors.map((item) => {
         arrayPrimary.push(item.primary);
       });
 
@@ -231,20 +192,7 @@ const CreateFormulaire = () => {
             <p>Formulaire</p>
           </div>
         </Link>
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            console.log(
-              // questions,
-              // textQuestion,
-              // rateQuestion,
-              // choiceQuestion,
-              // emailQuestion
-              theme
-            );
-          }}>
-          console
-        </button>
+
         <div className="title">
           <input
             type="text"
@@ -262,10 +210,6 @@ const CreateFormulaire = () => {
               setTitleForm("");
               setErrorMessage("");
               setQuestions([]);
-              setTextQuestion([]);
-              setChoiceQuestion([]);
-              setEmailQuestion([]);
-              setRateQuestion([]);
             }}>
             Supprimer
           </button>
@@ -283,21 +227,40 @@ const CreateFormulaire = () => {
           <h3
             onClick={() => {
               setShowTheme(!showTheme);
-              console.log(showTheme);
             }}
             className="custom">
             Personnaliser le formulaire
           </h3>
         </div>
         {showTheme ? (
-          (console.log(primaryTheme),
-          (
+          <div className="theme-container">
             <div>
-              <CirclePicker colors={primaryTheme} circleSize={100} />
-
-              <p>theme</p>
+              <CirclePicker
+                onChange={(color) => {
+                  themeColors.map((theme, index) => {
+                    if (theme.primary.toLowerCase() === color.hex) {
+                      setSelectedTheme(theme);
+                    }
+                  });
+                }}
+                colors={primaryTheme}
+                circleSize={100}
+              />
             </div>
-          ))
+            <div className="picture-fetch">
+              <input
+                type="file"
+                onChange={(event) => {
+                  setPhotoTheme(event.target.files[0]);
+                }}
+              />
+              {photoTheme && (
+                <div className="image-preview">
+                  <img src={URL.createObjectURL(photoTheme)} alt="" />
+                </div>
+              )}
+            </div>
+          </div>
         ) : (
           <div>
             {questions &&
@@ -314,48 +277,44 @@ const CreateFormulaire = () => {
                     <div className="input-div">
                       <input
                         type="text"
-                        value={item.value}
+                        value={item.question.value}
                         onChange={(e) => {
-                          if (item.type === "text") {
-                            const copy = [...textQuestion];
+                          if (item.question.type === "text") {
+                            const copyQuestionsArrayState = [...questions];
 
-                            copy[item.index].question = e.target.value;
-                            // copy[item.index].index = index;
+                            copyQuestionsArrayState[index].question.value =
+                              e.target.value;
 
-                            item.value = e.target.value;
-                            item.index = index;
+                            copyQuestionsArrayState[index].index = index;
 
-                            item.state(copy);
-                          } else if (item.type === "rate") {
-                            const copy = [...rateQuestion];
+                            setQuestions(copyQuestionsArrayState);
+                          } else if (item.question.type === "rate") {
+                            const copyQuestionsArrayState = [...questions];
 
-                            copy[item.index].question = e.target.value;
-                            // copy[item.index].index = index;
+                            copyQuestionsArrayState[index].question.value =
+                              e.target.value;
 
-                            item.value = e.target.value;
-                            // item.index = index;
+                            copyQuestionsArrayState[index].index = index;
 
-                            item.state(copy);
-                          } else if (item.type === "email") {
-                            const copy = [...emailQuestion];
+                            setQuestions(copyQuestionsArrayState);
+                          } else if (item.question.type === "email") {
+                            const copyQuestionsArrayState = [...questions];
 
-                            copy[item.index].question = e.target.value;
-                            // copy[item.index].index = index;
+                            copyQuestionsArrayState[index].question.value =
+                              e.target.value;
 
-                            item.value = e.target.value;
-                            // item.index = index;
+                            copyQuestionsArrayState[index].index = index;
 
-                            item.state(copy);
-                          } else if (item.type === "choice") {
-                            const copy = [...choiceQuestion];
+                            setQuestions(copyQuestionsArrayState);
+                          } else if (item.question.type === "choice") {
+                            const copyQuestionsArrayState = [...questions];
 
-                            copy[item.index].question = e.target.value;
-                            // copy[item.index].index = index;
+                            copyQuestionsArrayState[index].question.value =
+                              e.target.value;
 
-                            item.value = e.target.value;
-                            // item.index = index;
+                            copyQuestionsArrayState[index].index = index;
 
-                            item.state(copy);
+                            setQuestions(copyQuestionsArrayState);
                           }
                         }}
                       />
@@ -367,9 +326,12 @@ const CreateFormulaire = () => {
                           icon={"fa-angle-up"}
                           onClick={() => {
                             const copyQuestions = [...questions];
+
                             if (index > 0) {
                               copyQuestions.splice(index, 1);
+
                               copyQuestions.splice(index - 1, 0, item);
+
                               setQuestions(copyQuestions);
                             }
                           }}
@@ -381,11 +343,14 @@ const CreateFormulaire = () => {
                           icon={"fa-angle-down"}
                           onClick={() => {
                             const copyQuestions = [...questions];
+
                             if (index < questions.length - 1) {
                               copyQuestions.splice(index, 1);
+
                               copyQuestions.splice(index + 1, 0, item);
+
+                              setQuestions(copyQuestions);
                             }
-                            setQuestions(copyQuestions);
                           }}
                         />
                       </div>
@@ -395,26 +360,10 @@ const CreateFormulaire = () => {
                           icon={"fa-trash"}
                           onClick={() => {
                             const copyQuestions = [...questions];
-                            copyQuestions.splice(index, 1);
-                            setQuestions(copyQuestions);
 
-                            if (item.type === "text") {
-                              const copy = [...textQuestion];
-                              copy.splice(item.index, 1);
-                              item.state(copy);
-                            } else if (item.type === "rate") {
-                              const copy = [...rateQuestion];
-                              copy.splice(item.index, 1);
-                              item.state(copy);
-                            } else if (item.type === "email") {
-                              const copy = [...emailQuestion];
-                              copy.splice(item.index, 1);
-                              item.state(copy);
-                            } else if (item.type === "choice") {
-                              const copy = [...choiceQuestion];
-                              copy.splice(item.index, 1);
-                              item.state(copy);
-                            }
+                            copyQuestions.splice(index, 1);
+
+                            setQuestions(copyQuestions);
                           }}
                         />
                       </div>

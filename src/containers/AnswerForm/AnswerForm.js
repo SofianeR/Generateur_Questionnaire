@@ -13,80 +13,72 @@ const AnswerForm = () => {
   const { state } = useLocation();
   const { formData } = state;
 
-  const [questions, setQuestion] = useState([]);
-
   const [pages, setPages] = useState(0);
   const [next, setNext] = useState(0);
 
-  // state reponses component
-  const [answersArray, setAnswersArray] = useState([]);
+  const [theme, setTheme] = useState();
+
+  const [questions, setQuestion] = useState([]);
 
   useEffect(() => {
     const fetchQuestion = () => {
-      const arrayForSetQuestions = [];
-      formData.questions.map((arrayQuestion) => {
-        const keys = Object.keys(arrayQuestion).join("");
+      setQuestion(JSON.parse(formData.questions));
 
-        arrayQuestion[keys].map((item) => {
-          arrayForSetQuestions.push({
-            index: item.index,
-            question: item.question,
-            answer: "",
-            type: keys,
-          });
-        });
-      });
+      setPages(JSON.parse(formData.questions).length);
 
-      arrayForSetQuestions.sort((a, b) => a.index - b.index);
-
-      setPages(arrayForSetQuestions.length);
-
-      setQuestion(arrayForSetQuestions);
-      console.log(questions);
+      setTheme(JSON.parse(formData.theme));
     };
     fetchQuestion();
   }, []);
   return (
     <div className="main-answer">
       {questions && next <= pages
-        ? questions.map((item, index) => {
+        ? questions.map((question, index) => {
             if (next === 0 && index === 0) {
               return (
                 <div className="form-card" key={index}>
-                  <p className="form-type">Sondage</p>
-                  <p className="form-title">{formData.title}</p>
-                  <p className="form-count">{pages} questions</p>
-                  <button
-                    onClick={() => {
-                      setNext((prevState) => prevState + 1);
-                    }}
-                    className="form-button">
-                    Commencer
-                  </button>
+                  <div className="card-description">
+                    <p className="form-type">Sondage</p>
+                    <p className="form-title">{formData.title}</p>
+                    <p className="form-count">{pages} questions</p>
+                    <button
+                      onClick={() => {
+                        setNext((prevState) => prevState + 1);
+                      }}
+                      className="form-button">
+                      Commencer
+                    </button>
+                  </div>
+                  {formData.picture && (
+                    <div className="img-form">
+                      <img src={formData.picture} />
+                    </div>
+                  )}
                 </div>
               );
-            } else if (next === item.index + 1 && next <= pages) {
-              if (item.type === "textQuestion") {
+            } else if (next === question.index + 1 && next <= pages) {
+              if (question.type === "text") {
                 return (
                   <TextQuestionComponent
                     key={index}
                     pages={pages}
                     next={next}
                     setNext={setNext}
-                    question={item}
+                    question={question}
                     questionsArrayState={questions}
                     setQuestionsArrayState={setQuestion}
                     formData={formData}
                     readOnly={false}
+                    index={index}
                   />
                 );
-              } else if (item.type === "rateQuestion") {
+              } else if (question.type === "rate") {
                 return (
                   <RateQuesitonComponent
                     key={index}
                     pages={pages}
                     next={next}
-                    question={item}
+                    question={question}
                     setNext={setNext}
                     questionsArrayState={questions}
                     setQuestionsArrayState={setQuestion}
@@ -94,27 +86,28 @@ const AnswerForm = () => {
                     readOnly={false}
                   />
                 );
-              } else if (item.type === "emailQuestion") {
+              } else if (question.type === "email") {
                 return (
                   <EmailQuestionComponent
                     key={index}
                     pages={pages}
                     next={next}
-                    question={item}
+                    question={question}
                     setNext={setNext}
                     questionsArrayState={questions}
                     setQuestionsArrayState={setQuestion}
                     formData={formData}
                     readOnly={false}
+                    index={index}
                   />
                 );
-              } else if (item.type === "choiceQuestion") {
+              } else if (question.type === "choice") {
                 return (
                   <ChoiceQuestionComponent
                     key={index}
                     pages={pages}
                     next={next}
-                    question={item}
+                    question={question}
                     setNext={setNext}
                     questionsArrayState={questions}
                     setQuestionsArrayState={setQuestion}

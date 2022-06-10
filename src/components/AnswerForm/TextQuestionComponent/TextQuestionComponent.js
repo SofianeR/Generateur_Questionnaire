@@ -11,12 +11,13 @@ const TextQuestionComponent = ({
   questionsArrayState,
   formData,
   readOnly,
+  index,
 }) => {
   return (
     <div className="component-container">
       <p className="count-question">Question {next + "/" + pages}</p>
 
-      <p className="title-question">{question.question}</p>
+      <p className="title-question">{question.value}</p>
       <div className="module-component">
         <textarea
           readOnly={readOnly}
@@ -27,7 +28,7 @@ const TextQuestionComponent = ({
           onChange={(e) => {
             const copy = [...questionsArrayState];
 
-            copy[question.index].answer = e.target.value;
+            copy[index].answer = e.target.value;
 
             setQuestionsArrayState(copy);
           }}></textarea>

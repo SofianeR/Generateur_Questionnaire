@@ -16,7 +16,7 @@ const ChoiceQuestionComponent = ({
     <div className="component-container">
       <p className="count-question">Question {next + "/" + pages}</p>
 
-      <p className="title-question">{question.question}</p>
+      <p className="title-question">{question.value}</p>
 
       <div className="module-component">
         <div className="button-choice">

@@ -1,37 +1,86 @@
 import React, { useState, useEffect } from "react";
 
 import axios from "axios";
-import { useParams, Link } from "react-router-dom";
 
-import TextQuestionComponent from "../../../components/AnswerForm/TextQuestionComponent/TextQuestionComponent";
-import RateQuestionComponent from "../../../components/AnswerForm/RateQuestionComponent/RateQuestionComponent";
-import EmailQuestionComponent from "../../../components/AnswerForm/EmailQuestionComponent/EmailQuestionComponent";
-import ChoiceQuestionComponent from "../../../components/AnswerForm/ChoiceQuestionComponent/ChoiceQuestionComponent";
+import { CSVLink, CSVDownload } from "react-csv";
+import { useParams, Link, useLocation } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const Answers = () => {
-  const { id } = useParams();
+  const { state } = useLocation();
+
+  const dataFormulaire = state;
+
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const [reponses, setReponses] = useState();
+  const [dataForm, setDataForm] = useState();
 
   const [rateDisplay, setRateDisplay] = useState([]);
 
+  const [csvArray, setCsvArray] = useState([]);
+
   const supprAllResponsesForm = async () => {
+    setIsLoading(true);
     try {
       const response = await axios.post(
         "http://localhost:4000/deleteAllResponse",
         {
-          formulaireId: id,
+          formulaireId: dataFormulaire._id,
         }
       );
-      console.log(response.data);
+
+      const copy = [...dataForm];
+
+      copy.splice(0, copy.length);
+
+      setDataForm(copy);
     } catch (error) {
       setErrorMessage(error.message);
     }
+    setIsLoading(false);
   };
+
+  const supprSingleReponse = async (reponseId, index) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.post("http://localhost:4000/deleteReponse", {
+        id: reponseId,
+      });
+
+      const copy = [...dataForm];
+
+      copy.splice(index, 1);
+
+      setDataForm(copy);
+    } catch (error) {
+      setErrorMessage(error.message);
+    }
+    setIsLoading(false);
+  };
+
+  const sortArraysForCsv = (dataform) => {
+    const arrayQuestion = [];
+    const arrayReponse = [];
+
+    dataform.map((reponse) => {
+      reponse.reponses.map((item) => {
+        arrayQuestion.push(item.value);
+        arrayReponse.push(item.answer);
+      });
+    });
+    console.log(arrayQuestion);
+    console.log(arrayReponse);
+
+    const copyCsvArray = [];
+
+    copyCsvArray.push(arrayQuestion);
+    copyCsvArray.push(arrayReponse);
+
+    setCsvArray(copyCsvArray);
+  };
+
   useEffect(() => {
     const rateStar = async () => {
       const displayArray = [...rateDisplay];
@@ -47,8 +96,12 @@ const Answers = () => {
     const fetchReponses = async () => {
       setIsLoading(true);
       try {
-        const response = await axios.get(`http://localhost:4000/form/${id}`);
-        setReponses(response.data);
+        const response = await axios.get(
+          `http://localhost:4000/form/${dataFormulaire._id}`
+        );
+        setDataForm(response.data.reponseFormulaire);
+
+        sortArraysForCsv(response.data.reponseFormulaire);
       } catch (error) {
         setErrorMessage(error.message);
       }
@@ -72,46 +125,57 @@ const Answers = () => {
         </Link>
         <div className="reponse-delete-div">
           <button className="suppr-button" onClick={supprAllResponsesForm}>
-            Supprimer tous les formulaire
+            Supprimer toutes les réponses
           </button>
-          <button className="button-light-green">Exporter en csv</button>
+
+          {csvArray && (
+            <CSVLink className="button-light-green" data={csvArray}>
+              Exporter en csv
+            </CSVLink>
+          )}
         </div>
       </div>
-      {reponses && <h1>{reponses.title}</h1>}
-      {reponses &&
-        reponses.reponseFormulaire.map((reponseForm, index) => {
+      {errorMessage && (
+        <div>
+          <p>{errorMessage}</p>
+        </div>
+      )}
+      {dataForm && <h1>{dataFormulaire.title}</h1>}
+      {dataForm &&
+        dataForm.map((reponseForm, index) => {
           return (
             <div
+              key={index}
               className="reponses-form"
               style={{ borderBottom: "solid #62C188 2px" }}>
-              {reponseForm.reponses.map((reponse, index) => {
+              {reponseForm.reponses.map((question, index) => {
                 return (
-                  <div className="reponse-container">
-                    {reponse.type === "textQuestion" ? (
+                  <div className="reponse-container" key={index}>
+                    {question.type === "text" ? (
                       <div className="reponse-title">
                         <div
                           style={{ backgroundColor: "#F5BA49" }}
                           className="icon-container">
-                          <p>{reponse.index + 1}</p>
+                          <p>{question.index + 1}</p>
                           <p>-</p>
                           <FontAwesomeIcon icon={"fa-file-lines"} />
                         </div>
                         <div className="reponse">
-                          <h4>{reponse.question}</h4>
-                          <p>{reponse.answer}</p>
+                          <h4>{question.value}</h4>
+                          <p>{question.answer}</p>
                         </div>
                       </div>
-                    ) : reponse.type === "rateQuestion" ? (
+                    ) : question.type === "rate" ? (
                       <div className="reponse-title">
                         <div
                           style={{ backgroundColor: "#F09F97" }}
                           className="icon-container">
-                          <p>{reponse.index + 1}</p>
+                          <p>{question.index + 1}</p>
                           <p>-</p>
                           <FontAwesomeIcon icon={"fa-star"} />
                         </div>
                         <div className="reponse">
-                          <h4>{reponse.question}</h4>
+                          <h4>{question.value}</h4>
                           <div className="rate-container">
                             {rateDisplay &&
                               rateDisplay.map((rate, index) => {
@@ -119,7 +183,7 @@ const Answers = () => {
                                   <div
                                     key={index}
                                     className={
-                                      Number(rate.key) + 1 === reponse.answer
+                                      Number(rate.key) + 1 === question.answer
                                         ? "selected-rate"
                                         : "rate-block"
                                     }>
@@ -130,35 +194,35 @@ const Answers = () => {
                           </div>
                         </div>
                       </div>
-                    ) : reponse.type === "emailQuestion" ? (
+                    ) : question.type === "email" ? (
                       <div className="reponse-title">
                         <div
                           style={{ backgroundColor: "#79A5DD" }}
                           className="icon-container">
-                          <p>{reponse.index + 1}</p>
+                          <p>{question.index + 1}</p>
                           <p>-</p>
                           <FontAwesomeIcon icon={"fa-envelope"} />
                         </div>
                         <div className="reponse">
-                          <h4>{reponse.question}</h4>
-                          <p>{reponse.answer}</p>
+                          <h4>{question.value}</h4>
+                          <p>{question.answer}</p>
                         </div>
                       </div>
-                    ) : reponse.type === "choiceQuestion" ? (
+                    ) : question.type === "choice" ? (
                       <div className="reponse-title">
                         <div
                           style={{ backgroundColor: "#9ACE83" }}
                           className="icon-container">
-                          <p>{reponse.index + 1}</p>
+                          <p>{question.index + 1}</p>
                           <p>-</p>
                           <FontAwesomeIcon icon={"fa-question"} />
                         </div>
                         <div className="reponse">
-                          <h4>{reponse.question}</h4>
+                          <h4>{question.value}</h4>
                           <div className="choice-container">
                             <div
                               className={
-                                reponse.answer === true
+                                question.answer === true
                                   ? "selected-block"
                                   : "choice"
                               }>
@@ -166,7 +230,7 @@ const Answers = () => {
                             </div>
                             <div
                               className={
-                                reponse.answer === false
+                                question.answer === false
                                   ? "selected-block"
                                   : "choice"
                               }>
@@ -181,9 +245,15 @@ const Answers = () => {
               })}
               <div className="suppr-div">
                 <p>
-                  {index + 1} / {reponses.reponseFormulaire.length}
+                  {index + 1} / {dataForm.length}
                 </p>
-                <button className="suppr-button">console</button>
+                <button
+                  className="suppr-button"
+                  onClick={() => {
+                    supprSingleReponse(reponseForm._id, index);
+                  }}>
+                  Supprimer la réponse
+                </button>
               </div>
             </div>
           );

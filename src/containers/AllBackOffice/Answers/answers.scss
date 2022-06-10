@@ -73,13 +73,16 @@
         justify-content: space-between;
         // background-color: white;
         .button-light-green{
-            padding: 2%;
+            padding: 3%;
             color: white;
             font-weight: bold;
             border: none;
             background-color: #62C188;
             border-radius: 5px;
+            font-size: 10px;
             margin-left: 2%;
+            text-align: center;
+            text-decoration: none;
             cursor: pointer;
 
         }

@@ -13,20 +13,18 @@ const NavButtonsComponent = ({
   const sendResponseServer = async () => {
     try {
       const copy = [...questionsArrayState];
+
       copy.map((item) => {
-        if (item.answer === "") {
+        if (!item.answer || item.answer === "") {
           item.answer = "Pas de réponse";
         }
       });
 
-      // console.log(questionsArrayState);
-
       const response = await axios.post("http://localhost:4000/reponseForm", {
         title: formData.title,
-        reponses: questionsArrayState,
+        reponses: copy,
         formulaire: formData,
       });
-      // console.log(response.data);
     } catch (error) {
       console.log(error.message);
     }

@@ -87,6 +87,7 @@
         }
         .custom{
             color: #62C188;
+            cursor: pointer;
         }}
     .add-question{
         display: flex;
@@ -144,7 +145,38 @@
             }
         }
     }
+ 
 }
+}
+.theme-container{
+    // border: solid red 2px;
+    padding: 3%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+.picture-fetch{
+    background: linear-gradient(270deg, #62C188 0%, rgba(98, 193, 136, 0.5) 98.55%);
+    display: flex;
+    align-items: center;
+    padding: 5%;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    width: 25%;
+    text-align: center;
+    cursor: pointer;
+}
+.image-preview{
+    height: 30%;
+    width: 80%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img{
+        height: 100%;
+        width: 100%;
+    }
 }
 .div-alert{
     display: flex;
