@@ -23,11 +23,13 @@ const Answers = () => {
 
   const [csvArray, setCsvArray] = useState([]);
 
-  const deleteAllResponsesForm = async () => {
+  const deleteAllAnswerForm = async () => {
     setIsLoading(true);
     try {
+      console.log("click");
       const response = await axios.post(
-        "https://sofiane-rehila-94.herokuapp.com/answerForm/delete/all",
+        // "https://sofiane-rehila-94.herokuapp.com/answerForm/delete/all",
+        "http://localhost:4000/answerForm/delete/all",
 
         {
           formulaireId: dataFormulaire._id,
@@ -95,9 +97,10 @@ const Answers = () => {
         const response = await axios.get(
           `https://sofiane-rehila-94.herokuapp.com/questionForm/single/${dataFormulaire._id}`
         );
-        setDataForm(response.data.reponseFormulaire);
+        setDataForm(response.data.answerForm);
+        console.log(response.data);
 
-        sortArraysForCsv(response.data.reponseFormulaire);
+        sortArraysForCsv(response.data.answerForm);
       } catch (error) {
         setErrorMessage(error.message);
       }
@@ -113,7 +116,7 @@ const Answers = () => {
   ) : (
     <div className="container-answers">
       <AnswersHeaderComponent
-        deleteAllResponsesForm={deleteAllResponsesForm}
+        deleteAllAnswerForm={deleteAllAnswerForm}
         csvArray={csvArray}
       />
 
@@ -124,13 +127,13 @@ const Answers = () => {
       )}
       {dataForm && <h1>{dataFormulaire.title}</h1>}
       {dataForm &&
-        dataForm.map((reponseForm, index) => {
+        dataForm.map((answerForm, index) => {
           return (
             <div
               key={index}
               className="reponses-form"
               style={{ borderBottom: "solid #62C188 2px" }}>
-              {reponseForm.reponses.map((question, index) => {
+              {answerForm.reponses.map((question, index) => {
                 return (
                   <div className="reponse-container" key={index}>
                     {question.type === "text" ? (
@@ -154,7 +157,7 @@ const Answers = () => {
                 <button
                   className="suppr-button"
                   onClick={() => {
-                    deleteSingleReponse(reponseForm._id, index);
+                    deleteSingleReponse(answerForm._id, index);
                   }}>
                   Supprimer la réponse
                 </button>

@@ -20,17 +20,19 @@ const NavButtonsComponent = ({
       const copy = [...questionsArrayState];
 
       copy.map((item) => {
-        if (!item.answer || item.answer === "") {
+        if (item.answer === "") {
           item.answer = "Pas de réponse";
         }
       });
 
       const response = await axios.post(
-        "https://sofiane-rehila-94.herokuapp.com/reponseForm/create",
+        // "https://sofiane-rehila-94.herokuapp.com/answerForm/create",
+        "http://localhost:4000/answerForm/create/",
+
         {
           title: formData.title,
           reponses: copy,
-          formulaire: formData,
+          questionForm: formData,
         }
       );
     } catch (error) {

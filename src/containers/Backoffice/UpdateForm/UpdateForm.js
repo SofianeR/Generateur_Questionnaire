@@ -34,10 +34,10 @@ const UpdateForm = () => {
   //
 
   const updateBdd = async () => {
-    setIsLoading(true);
-
     setErrorMessage("");
     try {
+      setIsLoading(true);
+
       if (titleForm.length > 6) {
         for (let i = 0; i < questions.length; i++) {
           questions[i].index = i;
@@ -82,16 +82,19 @@ const UpdateForm = () => {
     setIsLoading(true);
     try {
       const response = await axios.post(
-        "https://sofiane-rehila-94.herokuapp.com/questionForm/questionForm/delete/single",
+        // "https://sofiane-rehila-94.herokuapp.com/questionForm/questionForm/delete/single",
+        "http://localhost:4000/questionForm/delete/single",
 
         {
           id,
         }
       );
       console.log(response.data);
+      navigate("/backoffice");
     } catch (error) {
       setErrorMessage(error.message);
     }
+    setIsLoading(false);
   };
 
   useEffect(() => {

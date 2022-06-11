@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { CSVLink, CSVDownload } from "react-csv";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const AnswersHeaderComponent = ({ supprAllResponsesForm, csvArray }) => {
+const AnswersHeaderComponent = ({ deleteAllAnswerForm, csvArray }) => {
   return (
     <div className="header-reponses">
       <Link className="toHome" to={"/backoffice"}>
@@ -14,7 +14,7 @@ const AnswersHeaderComponent = ({ supprAllResponsesForm, csvArray }) => {
         </div>
       </Link>
       <div className="reponse-delete-div">
-        <button className="suppr-button" onClick={supprAllResponsesForm}>
+        <button className="suppr-button" onClick={deleteAllAnswerForm}>
           Supprimer toutes les réponses
         </button>
 
