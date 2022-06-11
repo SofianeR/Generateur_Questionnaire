@@ -1,0 +1,24 @@
+@font-face {
+    font-family: 'Averta Std PE';
+    src: url('AvertaStdPE-Bold.eot');
+    src: url('AvertaStdPE-Bold.eot?#iefix') format('embedded-opentype'),
+        url('AvertaStdPE-Bold.woff2') format('woff2'),
+        url('AvertaStdPE-Bold.woff') format('woff'),
+        url('AvertaStdPE-Bold.ttf') format('truetype'),
+        url('AvertaStdPE-Bold.svg#AvertaStdPE-Bold') format('svg');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Averta Std PE';
+    src: url('AvertaStdPE-Regular.eot');
+    src: url('AvertaStdPE-Regular.eot?#iefix') format('embedded-opentype'),
+        url('AvertaStdPE-Regular.woff2') format('woff2'),
+        url('AvertaStdPE-Regular.woff') format('woff'),
+        url('AvertaStdPE-Regular.ttf') format('truetype'),
+        url('AvertaStdPE-Regular.svg#AvertaStdPE-Regular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+

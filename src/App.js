@@ -2,18 +2,18 @@ import "./App.scss";
 import React, { useState } from "react";
 
 // import containers BackOffice
-import Login from "./containers/AllBackOffice/Login/Login";
-import BackOffice from "./containers/AllBackOffice/BackOffice/BackOffice";
-import CreateFormulaire from "./containers/AllBackOffice/CreateFormulaire/CreateFormulaire";
-import UpdateFormulaire from "./containers/AllBackOffice/UpdateFormulaire/UpdateFormulaire";
-import Answers from "./containers/AllBackOffice/Answers/Answers";
+import Login from "./containers/Backoffice/Login/Login";
+import BackOffice from "./containers/Backoffice/HomeBackOffice/HomeBackOffice";
+import CreateForm from "./containers/Backoffice/CreateForm/CreateForm";
+import UpdateForm from "./containers/Backoffice/UpdateForm/UpdateForm";
+import Answers from "./containers/Backoffice/Answers/Answers";
 
 // import Container Client
-import Home from "./containers/Home/Home";
-import AnswerForm from "./containers/AnswerForm/AnswerForm";
+import Home from "./containers/User/Home/Home";
+import AnswerForm from "./containers/User/AnswerForm/AnswerForm";
 
 // import component
-import Header from "./components/Header/Header";
+import Header from "./components/Shared/Header/Header";
 
 // import packages
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
@@ -32,6 +32,7 @@ import {
   faAngleUp,
   faAngleDown,
   faArrowUpRightFromSquare,
+  faArrowLeft,
 } from "@fortawesome/free-solid-svg-icons";
 
 library.add(
@@ -44,7 +45,8 @@ library.add(
   faTrash,
   faAngleUp,
   faAngleDown,
-  faArrowUpRightFromSquare
+  faArrowUpRightFromSquare,
+  faArrowLeft
 );
 
 function App() {
@@ -56,12 +58,13 @@ function App() {
   // function //
 
   const setUser = async (connexionState) => {
-    connexionState
-      ? Cookies.set(
-          "connexion",
-          "connecté"
-        )(setUserConnexion(Cookies.get("connexion")))
-      : Cookies.remove("connexion")(setUserConnexion(Cookies.get("connexion")));
+    if (connexionState) {
+      Cookies.set("connexion", "connecté");
+      setUserConnexion(Cookies.get("connexion"));
+    } else {
+      Cookies.remove("connexion");
+      setUserConnexion(null);
+    }
   };
   return (
     <Router>
@@ -81,11 +84,11 @@ function App() {
 
             <Route
               path="/backoffice/create"
-              element={<CreateFormulaire setUser={setUser} />}
+              element={<CreateForm setUser={setUser} />}
             />
             <Route
               path="/backoffice/update/:id"
-              element={<UpdateFormulaire setUser={setUser} />}
+              element={<UpdateForm setUser={setUser} />}
             />
             <Route
               path="/backoffice/reponses/:id"

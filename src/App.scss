@@ -1,18 +1,47 @@
 // import style  containers
-@import url("./containers//Home/home.scss");
-@import url("./containers/AllBackOffice/Login/login.scss");
-@import url("./containers/AllBackOffice/BackOffice/backoffice.scss");
-@import url("./containers/AllBackOffice/CreateFormulaire/createformulaire.scss");
-@import url("./containers/AllBackOffice/UpdateFormulaire/updateFormulaire.scss");
-@import url("./containers/AnswerForm/answerform.scss");
-@import url("./containers/AllBackOffice/Answers/answers.scss");
+@import url("./containers/User/Home/home.scss");
+@import url("./containers/User/AnswerForm/answerform.scss");
+
+
+
+@import url("./containers/Backoffice/Login/login.scss");
+@import url("./containers/Backoffice//HomeBackOffice/homebackoffice.scss");
+@import url("./containers/Backoffice/CreateForm/createform.scss");
+@import url("./containers/Backoffice/UpdateForm/updateform.scss");
+@import url("./containers/Backoffice/Answers/answers.scss");
 
 // import style components
-@import url("./components/Header/header.scss");
-@import url("./components/AnswerForm/TextQuestionComponent/textquestioncomponent.scss");
+@import url("./components/Shared/Header/header.scss");
+@import url("./components/User/AnswerForm/TextQuestionComponent/textquestioncomponent.scss");
+
+@font-face {
+  font-family: 'Averta Std PE';
+  src: url("./assets/fonts/Averta/AvertaStdPE-Bold.eot");
+  src: url("./assets/fonts/Averta/AvertaStdPE-Bold.woff");
+  src: url("./assets/fonts/Averta/AvertaStdPE-Bold.woff2");
+  src: url("./assets/fonts/Averta/AvertaStdPE-Bold.ttf");
+  src: url("./assets/fonts/Averta/AvertaStdPE-Regular.eot");
+  src: url("./assets/fonts/Averta/AvertaStdPE-Regular.ttf");
+  src: url("./assets/fonts/Averta/AvertaStdPE-Regular.woff");
+  src: url("./assets/fonts/Averta/AvertaStdPE-Regular.woff2");
+  
+
+
+
+}
 
 
 .App{
-  font-family: "Hiragino Kaku Gothic StdN", sans-serif;
-  padding: 0 2%;
+  font-family:  'Averta Std PE', sans-serif;
+  padding: 0 5%;
+  button{
+  // font-family:  'Averta Std PE', sans-serif;
+
+  }
+}
+
+.no-data{
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
