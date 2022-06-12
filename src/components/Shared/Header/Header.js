@@ -1,3 +1,5 @@
+import logoTellMeMore from "../../../assets/img/logoTellMeMore.svg";
+
 import React from "react";
 
 import { Link, useNavigate } from "react-router-dom";
@@ -7,17 +9,9 @@ const Header = ({ userConnexion, setUser }) => {
 
   return (
     <header>
-      <div className="header-logo">
-        <div className="logo">
-          <p>T</p>
-        </div>
-        <p
-          onClick={() => {
-            navigate("/");
-          }}>
-          TellMeMore
-        </p>
-      </div>
+      <Link to={"/"} className="header-logo">
+        <img src={logoTellMeMore} alt="" />
+      </Link>
 
       {userConnexion ? (
         <div className="header-buttons">
@@ -27,6 +21,7 @@ const Header = ({ userConnexion, setUser }) => {
             </div>
           </Link>
           <button
+            className="deconnexion"
             onClick={() => {
               setUser(null);
               navigate("/backoffice/login");

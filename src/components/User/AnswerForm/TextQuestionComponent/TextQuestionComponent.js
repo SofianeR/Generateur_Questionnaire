@@ -12,6 +12,8 @@ const TextQuestionComponent = ({
   formData,
   readOnly,
   index,
+  primaryTheme,
+  textTheme,
 }) => {
   return (
     // <div className="component-container">
@@ -20,6 +22,8 @@ const TextQuestionComponent = ({
     //   <p className="title-question">{question.value}</p>
     <div className="module-component">
       <textarea
+        autoFocus={true}
+        style={{ outlineColor: primaryTheme, color: textTheme }}
         readOnly={readOnly}
         name="reponse-text"
         cols="30"

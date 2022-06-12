@@ -6,15 +6,22 @@ import themeColors from "../../../assets/themeColors.json";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import CustomizeTheme from "../../../components/Backoffice/Shared/CustomizeTheme";
-import HeaderCreateComponent from "../../../components/Backoffice/CreateForm/HeaderCreateComponent";
-import SpliceButtonsComponent from "../../../components/Backoffice/Shared/SpliceButtonsComponent";
-import AddQuestionButtonComponent from "../../../components/Backoffice/Shared/AddQuestionButtonsComponent";
-import InputQuestionUpdateComponent from "../../../components/Backoffice/Shared/InputQuestionUpdateComponent";
+import { useAlert } from "react-alert";
+
+import cloudinary from "cloudinary";
+
+import CustomizeTheme from "../../../components/Backoffice/Create-Update/CustomizeTheme";
+import HeaderFormComponent from "../../../components/Backoffice/Create-Update/HeaderFormComponent";
+import SpliceButtonsComponent from "../../../components/Backoffice/Create-Update/SpliceButtonsComponent";
+import AddQuestionButtonComponent from "../../../components/Backoffice/Create-Update/AddQuestionButtonsComponent";
+import InputQuestionComponent from "../../../components/Backoffice/Create-Update/InputQuestionComponent/InputQuestionComponent";
 
 const CreateForm = () => {
   // navigation
   const navigate = useNavigate();
+
+  // alert
+  const alert = useAlert();
 
   //
   const [isLoading, setIsLoading] = useState(false);
@@ -40,60 +47,68 @@ const CreateForm = () => {
   // function to send form to database
   const saveForm = async () => {
     setIsLoading(true);
-    setErrorMessage("requete en cours ...");
     try {
       if (titleForm.length > 6) {
-        const formData = new FormData();
+        if (questions.length > 0) {
+          const formData = new FormData();
 
-        const arrayQuestions = [];
+          const arrayQuestions = [];
 
-        for (let i = 0; i < questions.length; i++) {
-          if (questions[i].value === "") {
-            return setErrorMessage("une des question est vide");
-          }
-          questions[i].index = i;
-
-          arrayQuestions.push(questions[i]);
-        }
-
-        const slug = titleForm
-          .split(" ")
-          .join("-")
-          .normalize("NFD")
-          .replace(/[\u0300-\u036f]/g, "");
-
-        formData.append("slug", slug);
-        formData.append("titleForm", titleForm);
-
-        formData.append("questions", JSON.stringify(arrayQuestions));
-
-        formData.append("theme", JSON.stringify(selectedTheme));
-
-        if (pictureTheme) {
-          formData.append("picture", pictureTheme);
-        }
-
-        try {
-          const response = await axios.post(
-            "https://sofiane-rehila-94.herokuapp.com/questionForm/create",
-            formData,
-            {
-              headers: {
-                "Content-Type": "multipart/form-data",
-              },
+          for (let i = 0; i < questions.length; i++) {
+            if (questions[i].value === "") {
+              return alert.show("une des question est vide");
             }
-          );
-          console.log(response.data);
-        } catch (error) {
-          setErrorMessage(error.message);
-        }
+            questions[i].index = i;
 
-        navigate("/backoffice");
+            arrayQuestions.push(questions[i]);
+          }
+
+          const slug = titleForm
+            .split(" ")
+            .join("-")
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "");
+
+          formData.append("slug", slug);
+
+          formData.append("titleForm", titleForm);
+
+          // formData.append("questions", JSON.stringify(arrayQuestions));
+
+          formData.append("theme", JSON.stringify(selectedTheme));
+
+          if (pictureTheme) {
+            const result = await cloudinary.v2.uploader.upload(
+              req.files.picture.path
+            );
+            console.log(result);
+          }
+
+          try {
+            const response = await axios.post(
+              // "https://sofiane-rehila-94.herokuapp.com/questionForm/create",
+              "http://localhost:4000/questionForm/create",
+              { formData: formData, questions: questions },
+              {
+                headers: {
+                  "Content-Type": "multipart/form-data",
+                },
+              }
+            );
+            console.log(response.data);
+          } catch (error) {
+            alert.show(error.message);
+          }
+
+          navigate("/backoffice");
+        } else {
+          alert.show("Votre formualire doit contenir au moins une question");
+        }
       } else {
-        setErrorMessage("votre titre doit faire plus de 6 caracteres");
+        alert.show("votre titre doit faire plus de 6 caracteres");
       }
     } catch (error) {
-      setErrorMessage(error.message);
+      alert.show(error.message);
     }
     setIsLoading(false);
   };
@@ -110,10 +125,21 @@ const CreateForm = () => {
     saveColors();
   }, []);
 
+  // useEffect(() => {
+  //   alert.show(errorMessage);
+  // }, [errorMessage]);
+
+  const emptyFieldsForm = () => {
+    setTitleForm("");
+    setErrorMessage("");
+    setQuestions([]);
+  };
+
   return (
     <div className="create-container">
-      <HeaderCreateComponent
-        saveForm={saveForm}
+      <HeaderFormComponent
+        deleteFunction={emptyFieldsForm}
+        formSubmitFunction={saveForm}
         titleForm={titleForm}
         setTitleForm={setTitleForm}
         setErrorMessage={setErrorMessage}
@@ -127,6 +153,7 @@ const CreateForm = () => {
       <div className="main-create">
         <div className="main-title">
           <h3
+            style={!showTheme ? { color: "#0d401d" } : { color: "#62C188" }}
             onClick={() => {
               setShowTheme(false);
             }}
@@ -137,7 +164,8 @@ const CreateForm = () => {
             onClick={() => {
               setShowTheme(true);
             }}
-            className="custom">
+            className="custom"
+            style={showTheme ? { color: "#0d401d" } : { color: "#62C188" }}>
             Personnaliser le formulaire
           </h3>
         </div>
@@ -156,7 +184,7 @@ const CreateForm = () => {
               questions.map((question, index) => {
                 return (
                   <div className="question-div" key={index}>
-                    <InputQuestionUpdateComponent
+                    <InputQuestionComponent
                       questions={questions}
                       setQuestions={setQuestions}
                       question={question}

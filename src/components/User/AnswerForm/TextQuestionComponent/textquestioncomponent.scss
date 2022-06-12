@@ -1,16 +1,27 @@
+:root{
+    --theme:
+}
 .component-container{
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     width: 100%;
     height: 100%;
+    // border: solid red 2px;
+
     .count-question{
         font-size: 14px;
-            color: #62C188;
+        color: #62C188;
+        font-weight: bolder;
+
+        margin-top: 0;
+
     }
     .title-question{
-        color: #10401E;
-        font-size: 20px;
+        font-size: 23px;
+        font-weight: bolder;
+        margin-top: 0;
     }
       .module-component{
           width: 100%;
@@ -18,10 +29,12 @@
           display: flex;
           justify-content: center;
           align-items: center;
+        //   border: solid cornflowerblue 2px;
         textarea{
             border: none;
             height: 20%;
             width: 50%;
+            padding: 2%;
         }
         input{
             padding: 1%;
@@ -33,24 +46,27 @@
             outline-color: #62C188;
         }
         .button-choice{
-            width: 100%;
+
+            width: 20%;
             display: flex;
-            justify-content: center;
+            justify-content: space-around;
             align-items: center;
+            // border: solid blue 4px;
             button{
-                margin-right: 3%;
+                // margin-right: 3%;
+                width: 30%;
                 border: none;
                 border: solid #10401E 1px;
                 color: #10401E;
                 background-color: #EAF9EC;
                 text-transform: uppercase;
-                padding: 1% 2%;
-                border-radius: 10px;
+                padding: 3% 0;
+                border-radius: 5px;
                 cursor: pointer;
                 
             }
             .selected{
-                padding: 1% 2%;
+                padding: 3% 0;
                 border-radius: 10px;
                 border: none;
                 background-color: #62C188;
@@ -101,23 +117,28 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        margin-top: 3%;
         width: 85%;
         position: absolute;
-        bottom: 5%;
+        bottom: 2%;
         button{
             padding: 1%;
+          width: 12%; 
+
             border: none;
             color: white;
             font-weight: bold;
             border-radius: 10px;
             font-size: 13px;
+          cursor: pointer;
+
         }
         div{
           display: flex;
           justify-content: space-between;
           align-items: center;
-          width: 13%; 
+          width: 12%; 
+          padding: 0 2%;
+          border-radius: 5px;
           cursor: pointer;
           p{
             font-size: 13px;

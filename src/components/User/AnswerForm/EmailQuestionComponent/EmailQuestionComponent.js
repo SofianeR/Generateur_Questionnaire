@@ -12,17 +12,16 @@ const EmailQuestionComponent = ({
   formData,
   readOnly,
   index,
+  primaryTheme,
+  textTheme,
 }) => {
   return (
-    // <div className="component-container">
-    //   <p className="count-question">Question {next + "/" + pages}</p>
-
-    //   <p className="title-question">{question.value}</p>
-
     <div className="module-component">
       <input
-        readOnly={readOnly}
-        type="email"
+        autoFocus
+        placeholder="Répondez ici ..."
+        style={{ outlineColor: primaryTheme, color: textTheme }}
+        type="text"
         value={question.answer}
         onChange={(e) => {
           const copy = [...questionsArrayState];
@@ -32,16 +31,6 @@ const EmailQuestionComponent = ({
         }}
       />
     </div>
-    //   <NavButtonsComponent
-    //     setNext={setNext}
-    //     pages={pages}
-    //     question={question}
-    //     next={next}
-    //     questionsArrayState={questionsArrayState}
-    //     setQuestionsArrayState={setQuestionsArrayState}
-    //     formData={formData}
-    //   />
-    // </div>
   );
 };
 export default EmailQuestionComponent;

@@ -4,7 +4,10 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Link } from "react-router-dom";
 
+import { useAlert } from "react-alert";
+
 const Home = () => {
+  const alert = useAlert();
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
@@ -22,41 +25,44 @@ const Home = () => {
         setListForm(response.data.listForm);
         console.log(response.data);
       } catch (error) {
-        setErrorMessage(error.message);
+        alert.show(error.message);
       }
       setIsLoading(false);
     };
     fetchForms();
   }, []);
 
-  return (
-    <div className="main">
-      <h1>Répondre à un questionnaire</h1>
-      {isLoading ? (
+  if (isLoading) {
+    return (
+      <div className="main">
         <div>
           <p>En cours de chargement ...</p>
         </div>
-      ) : listForm.length > 0 ? (
-        listForm &&
-        listForm.map((form, index) => {
-          return (
-            <Link
-              state={{ formData: form }}
-              to={`/form/${form.slug}`}
-              className="form-link-container"
-              key={form._id}>
-              <div className="link-title">
-                <p>{form.title}</p>
-              </div>
-              <div className="link-button">
-                <FontAwesomeIcon icon={"fa-arrow-up-right-from-square"} />
-              </div>
-            </Link>
-          );
-        })
-      ) : (
-        <h3>Aucuns formulaires 🥲</h3>
-      )}
+      </div>
+    );
+  }
+
+  return (
+    <div className="main">
+      <h1>Répondre à un questionnaire</h1>
+      {listForm?.map((form) => {
+        return (
+          <Link
+            state={{ formData: form }}
+            to={`/form/${form.slug}`}
+            className="form-link-container"
+            key={form._id}>
+            <div className="link-title">
+              <p>{form.title}</p>
+            </div>
+            <div className="link-button">
+              <FontAwesomeIcon icon={"fa-arrow-up-right-from-square"} />
+            </div>
+          </Link>
+        );
+      })}
+
+      {listForm.length === 0 && <h3>Aucuns formulaires 🥲</h3>}
     </div>
   );
 };

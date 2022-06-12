@@ -10,6 +10,8 @@ const CustomizeTheme = ({
   primaryThemeArray,
   setPictureTheme,
   pictureTheme,
+  formulaireData,
+  setFormulaireData,
 }) => {
   return (
     <div className="theme-container">
@@ -40,12 +42,23 @@ const CustomizeTheme = ({
           />
         </div>
       </div>
-      {pictureTheme ? (
+      {typeof pictureTheme !== "string" && pictureTheme ? (
         <div className="image-preview">
           <img src={URL.createObjectURL(pictureTheme)} alt="" />
           <button
             onClick={() => {
               setPictureTheme();
+            }}>
+            Supprimer la photo
+          </button>
+        </div>
+      ) : typeof pictureTheme === "string" ? (
+        <div className="image-preview">
+          <img src={pictureTheme} alt="" />
+          <button
+            onClick={() => {
+              setPictureTheme();
+              console.log(formulaireData);
             }}>
             Supprimer la photo
           </button>

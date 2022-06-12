@@ -18,6 +18,9 @@ const AnswerForm = () => {
   const { formData } = state;
 
   const [isLoading, setIsLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const [onMouseOver, setOnMouseOver] = useState([false, false, false, false]);
 
   const [pages, setPages] = useState(0);
   const [next, setNext] = useState(0);
@@ -30,6 +33,7 @@ const AnswerForm = () => {
 
   useEffect(() => {
     const fetchQuestion = () => {
+      setErrorMessage("");
       setIsLoading(true);
 
       const parsedTheme = JSON.parse(formData.theme);
@@ -43,15 +47,13 @@ const AnswerForm = () => {
       setPages(JSON.parse(formData.questions).length);
 
       setIsLoading(false);
-
-      console.log(primaryTheme, secondaryTheme, textTheme);
     };
     fetchQuestion();
   }, []);
 
   return isLoading ? (
     <div>
-      <h2>En cours de chargement</h2>
+      <h2>En cours de chargement...</h2>
     </div>
   ) : (
     <div className="main-answer" style={{ backgroundColor: secondaryTheme }}>
@@ -59,6 +61,7 @@ const AnswerForm = () => {
         ? questions.map((question, index) => {
             return next === 0 && index === 0 ? (
               <FirstScreen
+                key={index}
                 formData={formData}
                 pages={pages}
                 primaryTheme={primaryTheme}
@@ -88,6 +91,8 @@ const AnswerForm = () => {
                       formData={formData}
                       readOnly={false}
                       index={index}
+                      primaryTheme={primaryTheme}
+                      textTheme={textTheme}
                     />
                   ) : question.type === "rate" ? (
                     <RateQuesitonComponent
@@ -116,6 +121,8 @@ const AnswerForm = () => {
                       formData={formData}
                       readOnly={false}
                       index={index}
+                      primaryTheme={primaryTheme}
+                      textTheme={textTheme}
                     />
                   ) : question.type === "choice" ? (
                     <ChoiceQuestionComponent
@@ -131,6 +138,8 @@ const AnswerForm = () => {
                       primaryTheme={primaryTheme}
                       secondaryTheme={secondaryTheme}
                       textTheme={textTheme}
+                      onMouseOver={onMouseOver}
+                      setOnMouseOver={setOnMouseOver}
                     />
                   ) : null}
                   <NavButtonsComponent
@@ -144,6 +153,8 @@ const AnswerForm = () => {
                     primaryTheme={primaryTheme}
                     secondaryTheme={secondaryTheme}
                     textTheme={textTheme}
+                    onMouseOver={onMouseOver}
+                    setOnMouseOver={setOnMouseOver}
                   />
                 </div>
               )

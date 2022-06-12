@@ -14,22 +14,39 @@ const ChoiceQuestionComponent = ({
   primaryTheme,
   secondaryTheme,
   textTheme,
+  onMouseOver,
+  setOnMouseOver,
 }) => {
-  console.log(question.answer);
+  console.log(onMouseOver);
   return (
     <div className="module-component">
       <div className="button-choice">
         <button
-          className={question.answer ? "selected" : null}
+          // className={question.answer ? "selected" : null}
           style={
-            question.answer
-              ? { backgroundColor: primaryTheme, color: "white" }
+            question.answer || onMouseOver[2]
+              ? {
+                  backgroundColor: primaryTheme,
+                  color: "white",
+                  border: "none",
+                }
               : {
                   backgroundColor: secondaryTheme,
                   color: textTheme,
                   borderColor: textTheme,
                 }
           }
+          onMouseEnter={() => {
+            const copyHover = [...onMouseOver];
+            copyHover[2] = true;
+            copyHover[3] = false;
+            setOnMouseOver(copyHover);
+          }}
+          onMouseLeave={() => {
+            const copyHover = [...onMouseOver];
+            copyHover[2] = false;
+            setOnMouseOver(copyHover);
+          }}
           onClick={() => {
             const copy = [...questionsArrayState];
 
@@ -43,14 +60,31 @@ const ChoiceQuestionComponent = ({
         <button
           // className={question.answer ? "idle" : "selected"}
           style={
-            question.answer || question.answer === undefined
+            (question.answer === undefined && !onMouseOver[3]) ||
+            (question.answer && !onMouseOver[3])
               ? {
                   backgroundColor: secondaryTheme,
                   color: textTheme,
                   borderColor: textTheme,
                 }
-              : { backgroundColor: primaryTheme, color: "white" }
+              : {
+                  backgroundColor: primaryTheme,
+                  color: "white",
+                  border: "none",
+                }
           }
+          onMouseEnter={() => {
+            const copyHover = [...onMouseOver];
+            copyHover[3] = true;
+            copyHover[2] = false;
+
+            setOnMouseOver(copyHover);
+          }}
+          onMouseLeave={() => {
+            const copyHover = [...onMouseOver];
+            copyHover[3] = false;
+            setOnMouseOver(copyHover);
+          }}
           onClick={() => {
             const copy = [...questionsArrayState];
 

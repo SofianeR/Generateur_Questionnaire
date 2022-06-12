@@ -60,7 +60,7 @@ function App() {
   const setUser = async (connexionState) => {
     if (connexionState) {
       Cookies.set("connexion", "connecté");
-      setUserConnexion(Cookies.get("connexion"));
+      setUserConnexion("connecté");
     } else {
       Cookies.remove("connexion");
       setUserConnexion(null);

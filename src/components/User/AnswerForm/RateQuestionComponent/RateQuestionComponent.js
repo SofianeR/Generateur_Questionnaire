@@ -18,7 +18,7 @@ const RateQuestionComponent = ({
   const [rateDisplay, setRateDisplay] = useState([]);
 
   useEffect(() => {
-    const rateStar = async () => {
+    const rateStar = () => {
       const displayArray = [...rateDisplay];
       for (let i = 0; i < 5; i++) {
         displayArray.push(<p key={i}>{i + 1}</p>);
@@ -29,11 +29,6 @@ const RateQuestionComponent = ({
   }, []);
 
   return (
-    // <div className="component-container">
-    //   <p className="count-question">Question {next + "/" + pages}</p>
-
-    //   <p className="title-question">{question.value}</p>
-
     <div className="module-component">
       <div className="rate-container">
         {rateDisplay &&
@@ -49,7 +44,7 @@ const RateQuestionComponent = ({
                 }
                 style={
                   question.answer - 1 === Number(rate.key)
-                    ? { backgroundColor: textTheme, color: "white" }
+                    ? { backgroundColor: primaryTheme, color: "white" }
                     : { backgroundColor: secondaryTheme, color: textTheme }
                 }
                 key={index}
@@ -66,17 +61,6 @@ const RateQuestionComponent = ({
           })}
       </div>
     </div>
-
-    //   <NavButtonsComponent
-    //     setNext={setNext}
-    //     pages={pages}
-    //     question={question}
-    //     next={next}
-    //     questionsArrayState={questionsArrayState}
-    //     setQuestionsArrayState={setQuestionsArrayState}
-    //     formData={formData}
-    //   />
-    // </div>
   );
 };
 export default RateQuestionComponent;

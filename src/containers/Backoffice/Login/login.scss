@@ -19,7 +19,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    .search{
+    .login{
         width: 70%;
         padding: 10px;
         border-radius: 5px;
@@ -28,8 +28,8 @@
         color: #35764B;
        
     }
-    .search:focus{
-        outline: none;
+    .login:focus{
+        outline-color: #62C188;
     }
     .submit-button{
         padding: 10px;

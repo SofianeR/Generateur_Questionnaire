@@ -3,19 +3,21 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const HeaderCreateComponent = ({
+const HeaderFormComponent = ({
   titleForm,
   setTitleForm,
   setErrorMessage,
   setQuestions,
   saveForm,
+  formSubmitFunction,
+  deleteFunction,
 }) => {
   return (
     <form
       className="header-create"
       onSubmit={(e) => {
         e.preventDefault();
-        saveForm();
+        formSubmitFunction();
       }}>
       <Link className="go-back-link" to={"/backoffice"}>
         <div className="go-back">
@@ -38,16 +40,14 @@ const HeaderCreateComponent = ({
         <button
           onClick={(e) => {
             e.preventDefault();
-            setTitleForm("");
-            setErrorMessage("");
-            setQuestions([]);
+            deleteFunction();
           }}>
           Supprimer
         </button>
-        <input type="submit" value={"Sauvegarder"} />
+        <input className="submit" type="submit" value={"Sauvegarder"} />
       </div>
     </form>
   );
 };
 
-export default HeaderCreateComponent;
+export default HeaderFormComponent;

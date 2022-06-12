@@ -13,6 +13,10 @@
 // import style components
 @import url("./components/Shared/Header/header.scss");
 @import url("./components/User/AnswerForm/TextQuestionComponent/textquestioncomponent.scss");
+@import url("./components/Backoffice/Create-Update/headerformcomponent.scss");
+@import url("./components/Backoffice/Create-Update/InputQuestionComponent/inputquestioncomponent.scss");
+@import url("./components/Backoffice/HomeBackoffice/cardformcomponent.scss");
+
 
 @font-face {
   font-family: 'Averta Std PE';
@@ -34,10 +38,7 @@
 .App{
   font-family:  'Averta Std PE', sans-serif;
   padding: 0 5%;
-  button{
-  // font-family:  'Averta Std PE', sans-serif;
-
-  }
+ 
 }
 
 .no-data{

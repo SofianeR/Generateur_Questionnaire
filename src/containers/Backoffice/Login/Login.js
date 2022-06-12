@@ -4,10 +4,13 @@ import React, { useState } from "react";
 // import Cookies from "js-cookie";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useAlert } from "react-alert";
 
 const Login = ({ setUser }) => {
   // navigation
   const navigate = useNavigate();
+
+  const alert = useAlert();
   // connexion state
   const [isLoading, setIsLoading] = useState(false);
   const [password, setPassword] = useState("");
@@ -27,7 +30,7 @@ const Login = ({ setUser }) => {
         setUser(response.data.message);
         navigate("/backoffice");
       } else {
-        setErrorMessage(response.data.message);
+        alert.show(response.data.message);
       }
     } catch (error) {
       console.log(error.message);
@@ -48,7 +51,8 @@ const Login = ({ setUser }) => {
             connexion();
           }}>
           <input
-            className="search"
+            autoFocus
+            className="login"
             type="text"
             placeholder="Saisir votre mot de passe"
             onChange={(e) => {

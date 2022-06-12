@@ -2,14 +2,14 @@ import React from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-const InputQuestionUpdateComponent = ({
+const InputQuestionComponent = ({
   question,
   questions,
   setQuestions,
   index,
 }) => {
   return (
-    <div>
+    <div className="input-container">
       <div
         className="type"
         style={{
@@ -57,4 +57,4 @@ const InputQuestionUpdateComponent = ({
   );
 };
 
-export default InputQuestionUpdateComponent;
+export default InputQuestionComponent;

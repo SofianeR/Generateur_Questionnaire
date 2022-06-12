@@ -4,16 +4,19 @@ import React, { useState, useEffect } from "react";
 
 import axios from "axios";
 import { useNavigate, useParams, Link } from "react-router-dom";
+import { useAlert } from "react-alert";
 
-import CustomizeTheme from "../../../components/Backoffice/Shared/CustomizeTheme";
-import HeaderUpdateComponent from "../../../components/Backoffice/UpdateForm/HeaderUpdateComponent";
-import InputQuestionUpdateComponent from "../../../components/Backoffice/Shared/InputQuestionUpdateComponent";
-import SpliceButtonsComponent from "../../../components/Backoffice/Shared/SpliceButtonsComponent";
-import AddQuestionButtonComponent from "../../../components/Backoffice/Shared/AddQuestionButtonsComponent";
+import CustomizeTheme from "../../../components/Backoffice/Create-Update/CustomizeTheme";
+import HeaderFormComponent from "../../../components/Backoffice/Create-Update/HeaderFormComponent";
+import InputQuestionComponent from "../../../components/Backoffice/Create-Update/InputQuestionComponent/InputQuestionComponent";
+import SpliceButtonsComponent from "../../../components/Backoffice/Create-Update/SpliceButtonsComponent";
+import AddQuestionButtonComponent from "../../../components/Backoffice/Create-Update/AddQuestionButtonsComponent";
 
 const UpdateForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+
+  const alert = useAlert();
 
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -43,7 +46,7 @@ const UpdateForm = () => {
           questions[i].index = i;
           if (questions[i].value === "") {
             return (
-              setErrorMessage("Une des questions est vide"), setIsLoading(false)
+              alert.show("Une des questions est vide"), setIsLoading(false)
             );
           }
         }
@@ -55,10 +58,13 @@ const UpdateForm = () => {
         formData.append("questions", JSON.stringify(questions));
         formData.append("theme", JSON.stringify(selectedTheme));
 
+        console.log(pictureTheme);
+
         formData.append("picture", pictureTheme);
 
         const response = await axios.post(
-          "https://sofiane-rehila-94.herokuapp.com/questionForm/update",
+          // "https://sofiane-rehila-94.herokuapp.com/questionForm/update",
+          "http://localhost:4000/questionForm/update",
           formData,
           {
             headers: {
@@ -68,10 +74,10 @@ const UpdateForm = () => {
         );
         navigate("/backoffice");
       } else {
-        setErrorMessage("Votre titre doit faire plus de 6 caracteres");
+        alert.show("Votre titre doit faire plus de 6 caracteres");
       }
     } catch (error) {
-      setErrorMessage(error.message);
+      alert.show(error.message);
       setIsLoading(false);
     }
     setIsLoading(false);
@@ -89,10 +95,9 @@ const UpdateForm = () => {
           id,
         }
       );
-      console.log(response.data);
       navigate("/backoffice");
     } catch (error) {
-      setErrorMessage(error.message);
+      alert.show(error.message);
     }
     setIsLoading(false);
   };
@@ -119,15 +124,17 @@ const UpdateForm = () => {
 
         setFormulaireData(response.data);
 
+        if (response.data.picture.length !== 0) {
+          setPictureTheme(response.data.picture);
+        }
+
         setTitleForm(response.data.title);
 
         setQuestions(JSON.parse(response.data.questions));
 
         setSelectedTheme(JSON.parse(response.data.theme));
-
-        console.log(questions);
       } catch (error) {
-        console.log(error.message);
+        alert.show(error.message);
       }
       setIsLoading(false);
     };
@@ -149,9 +156,9 @@ const UpdateForm = () => {
     <div className="container-update">
       {formulaireData && (
         <div>
-          <HeaderUpdateComponent
-            updateForm={updateBdd}
-            deleteForm={deleteForm}
+          <HeaderFormComponent
+            formSubmitFunction={updateBdd}
+            deleteFunction={deleteForm}
             titleForm={titleForm}
             setTitleForm={setTitleForm}
           />
@@ -185,12 +192,14 @@ const UpdateForm = () => {
                 setPictureTheme={setPictureTheme}
                 pictureTheme={pictureTheme}
                 selectedTheme={selectedTheme}
+                formulaireData={formulaireData}
+                setFormulaireData={setFormulaireData}
               />
             ) : (
               questions.map((question, index) => {
                 return (
                   <div className="question-div" key={index}>
-                    <InputQuestionUpdateComponent
+                    <InputQuestionComponent
                       index={index}
                       question={question}
                       questions={questions}

@@ -1,74 +1,74 @@
 
 
-.header-create{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    .go-back-link{
-        text-decoration: none;
-        color: #0d401d;
-        width: 10%;
+// .header-create{
+//     display: flex;
+//     align-items: center;
+//     justify-content: space-between;
+//     width: 100%;
+//     .go-back-link{
+//         text-decoration: none;
+//         color: #0d401d;
+//         width: 10%;
 
-        .go-back{
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            p{
-                font-size: 12px;
-            }
-        }
-    }
+//         .go-back{
+//             display: flex;
+//             align-items: center;
+//             justify-content: space-between;
+//             p{
+//                 font-size: 12px;
+//             }
+//         }
+//     }
   
-        .title{
-            width: 50%;
+//         .title{
+//             width: 50%;
 
-            input{
-                width: 100%;
-                border: none;
-                padding: 10px;
-                border-radius: 5px;
-                // background-color: #EAF9EC;
-                border: solid 1px #62C188;
-                color: #35764B;
-            }
-        }
-        .title>input:focus{
-            outline: none;
-        }
-        .title>input::placeholder{
-            text-align: center;
-            font-weight: bold;
-            color: #B5B5B5;
-            font-size: 18px;
-        }
+//             input{
+//                 width: 100%;
+//                 border: none;
+//                 padding: 10px;
+//                 border-radius: 5px;
+//                 // background-color: #EAF9EC;
+//                 border: solid 1px #62C188;
+//                 color: #35764B;
+//             }
+//         }
+//         .title>input:focus{
+//             outline: none;
+//         }
+//         .title>input::placeholder{
+//             text-align: center;
+//             font-weight: bold;
+//             color: #B5B5B5;
+//             font-size: 18px;
+//         }
 
-        .title-buttons{
-            display: flex;
-            justify-content: space-around;
-            button{
-                padding: 10px;
-                border-radius: 5px;
-                color:#FF7B6F;
-                border: solid 1px #FF7B6F;
-                background-color: white;
-                font-weight: bold;
-                margin-right: 15%;
-                cursor: pointer;
-            }
+//         .title-buttons{
+//             display: flex;
+//             justify-content: space-around;
+//             button{
+//                 padding: 10px;
+//                 border-radius: 5px;
+//                 color:#FF7B6F;
+//                 border: solid 1px #FF7B6F;
+//                 background-color: white;
+//                 font-weight: bold;
+//                 margin-right: 15%;
+//                 cursor: pointer;
+//             }
             
-            input{
-                padding:  1px 8px;
-                border: none;
-                border-radius: 5px;
-                background-color: #62C188;
-                color: white;
-                font-weight: bold;
-                font-size: 13px;
-                cursor: pointer;}}
+//             input{
+//                 padding:  1px 8px;
+//                 border: none;
+//                 border-radius: 5px;
+//                 background-color: #62C188;
+//                 color: white;
+//                 font-weight: bold;
+//                 font-size: 13px;
+//                 cursor: pointer;}}
             
               
-}
+// }
 
 .main-create{
     background-color: #EAF9EC;
@@ -117,32 +117,11 @@
     }
     .question-div{
         display: flex;
-        justify-content: space-around;
+        // flex-direction: column;
+        justify-content: space-between;
         align-items: center;
-        padding: 0 3%;
-        .type{
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            width: 8%;
-            flex-wrap: nowrap;
-            font-size: 14px;
-            color: white;
-            border: none;
-            border-radius: 10%;
-            margin: 1% 0;
-        }
-        .question-buttons{
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 11%;
-        }
-        .input-div{
-            width: 75%;
-            input{
-                width: 100%;
-            }
-        }
+
+        // border: solid red 2px;
+   
     }
 }

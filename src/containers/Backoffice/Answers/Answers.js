@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import axios from "axios";
 
+import { useAlert } from "react-alert";
 import { useParams, Link, useLocation } from "react-router-dom";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,6 +13,7 @@ import EmailAnswerComponent from "../../../components/Backoffice/Answers/EmailAn
 import ChoiceAnswerComponent from "../../../components/Backoffice/Answers/ChoiceAnswerComponent";
 
 const Answers = () => {
+  const alert = useAlert();
   const { state } = useLocation();
 
   const dataFormulaire = state;
@@ -43,6 +45,7 @@ const Answers = () => {
       setDataForm(copy);
     } catch (error) {
       setErrorMessage(error.message);
+      alert.show(error.message);
     }
     setIsLoading(false);
   };
@@ -64,7 +67,7 @@ const Answers = () => {
 
       setDataForm(copy);
     } catch (error) {
-      setErrorMessage(error.message);
+      alert.show(error.message);
     }
     setIsLoading(false);
   };
@@ -98,7 +101,6 @@ const Answers = () => {
           `https://sofiane-rehila-94.herokuapp.com/questionForm/single/${dataFormulaire._id}`
         );
         setDataForm(response.data.answerForm);
-        console.log(response.data);
 
         sortArraysForCsv(response.data.answerForm);
       } catch (error) {
