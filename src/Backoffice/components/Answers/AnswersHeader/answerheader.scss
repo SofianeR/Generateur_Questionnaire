@@ -1,0 +1,36 @@
+.header-reponses{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color: white;
+    .button-light-green{
+        padding: 3%;
+        color: white;
+        font-weight: bold;
+        border: none;
+        background-color: #62C188;
+        border-radius: 5px;
+        font-size: 10px;
+        margin-left: 2%;
+        text-align: center;
+        text-decoration: none;
+        cursor: pointer;
+
+    }
+    .toHome{
+    width: 15%;
+    color: #10401E;
+    text-decoration: none;
+    div{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+    }}
+    .reponse-delete-div{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        width: 35%;
+    }
+}

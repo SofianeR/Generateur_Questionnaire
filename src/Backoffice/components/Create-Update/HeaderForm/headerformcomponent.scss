@@ -1,0 +1,94 @@
+.header-create{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    
+    width: 100%;
+    .go-back-link{
+        text-decoration: none;
+        color: #0d401d;
+        width: 10%;
+
+        .go-back{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            p{
+                font-size: 17px;
+                font-weight: bold;
+            }
+        }
+    }
+  
+        .title{
+            width: 60%;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            input{
+                text-align: center;
+                width: 100%;
+                font-weight: bolder;
+                font-size: 18px;
+                border: none;
+                padding: 10px;
+                border-radius: 5px;
+                // background-color: #EAF9EC;
+                border: solid 1px #62C188;
+                color: #35764B;
+            }:focus{
+                outline-color: #62C188;
+            }
+        }
+    
+        .title>input::placeholder{
+            text-align: center;
+            font-weight: bold;
+            color: #B5B5B5;
+            font-size: 18px;
+        }
+
+        .title-buttons{
+            display: flex;
+            justify-content: space-between;
+            width: 17%;
+
+            button{
+                padding: 10px;
+                border-radius: 5px;
+                color:#FF7B6F;
+                border: solid 1px #FF7B6F;
+                background-color: white;
+                font-weight: bold;
+                // margin-right: 15%;
+                cursor: pointer;
+            }:hover{
+                background-color: #FF7B6F;
+                color: white;
+                
+            }
+            
+            .save-button{
+                padding:  1px 8px;
+                border: none;
+                border-radius: 5px;
+                background-color: #62C188;
+                border: solid #62C188 1px;
+                color: white;
+                font-weight: bold;
+                font-size: 13px;
+                cursor: pointer;
+            }
+            .save-button:hover{
+                background-color: white;
+                color: #62C188;
+                border: solid #62C188 1px;
+            }
+            
+            }
+            
+              
+}

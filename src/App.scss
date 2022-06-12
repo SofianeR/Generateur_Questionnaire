@@ -1,21 +1,21 @@
 // import style  containers
-@import url("./containers/User/Home/home.scss");
-@import url("./containers/User/AnswerForm/answerform.scss");
+@import url("./Client/containers/Home/home.scss");
+@import url("./Client/containers/AnswerForm/answerform.scss");
 
 
 
-@import url("./containers/Backoffice/Login/login.scss");
-@import url("./containers/Backoffice//HomeBackOffice/homebackoffice.scss");
-@import url("./containers/Backoffice/CreateForm/createform.scss");
-@import url("./containers/Backoffice/UpdateForm/updateform.scss");
-@import url("./containers/Backoffice/Answers/answers.scss");
+@import url("./Backoffice/containers/Login/login.scss");
+@import url("./Backoffice/containers/Home/homebackoffice.scss");
+@import url("./Backoffice/containers/CreateForm/createform.scss");
+@import url("./Backoffice/containers/UpdateForm/updateform.scss");
+@import url("./Backoffice/containers/Answers/answers.scss");
 
 // import style components
-@import url("./components/Shared/Header/header.scss");
-@import url("./components/User/AnswerForm/TextQuestionComponent/textquestioncomponent.scss");
-@import url("./components/Backoffice/Create-Update/headerformcomponent.scss");
-@import url("./components/Backoffice/Create-Update/InputQuestionComponent/inputquestioncomponent.scss");
-@import url("./components/Backoffice/HomeBackoffice/cardformcomponent.scss");
+@import url("./Shared/Header/header.scss");
+@import url("./Client/components/AnswerForm/TextQuestionComponent/textquestioncomponent.scss");
+@import url("./Backoffice/components/Create-Update/HeaderForm/headerformcomponent.scss");
+@import url("./Backoffice/components/Create-Update/InputQuestionComponent/inputquestioncomponent.scss");
+@import url("./Backoffice/components/Home/cardformcomponent.scss");
 
 
 @font-face {
