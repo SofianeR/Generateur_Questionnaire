@@ -21,6 +21,12 @@ const FinalScreenQuestionComponent = ({
         Vos réponses ont bien été enregistrées !
       </p>
 
+      <p className="title-question">
+        Si vous souhaitez voir comment les formulaires crées, modifiés ou
+        supprimés ou consulter des réponses taper "admin" apres avoir cliqué sur
+        backoffice
+      </p>
+
       <div className="nav-final-screen">
         <button
           style={{ backgroundColor: primaryTheme, color: "white" }}
