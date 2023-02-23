@@ -1,4 +1,4 @@
-import logoTellMeMore from "../../assets/img/logoTellMeMore.svg";
+import logoTellMeMore from "../../assets/img/favicon2.png";
 
 import React from "react";
 
@@ -11,6 +11,7 @@ const Header = ({ userConnexion, setUser }) => {
     <header>
       <Link to={"/"} className="header-logo">
         <img src={logoTellMeMore} alt="" />
+        <h1>Form Generator</h1>
       </Link>
 
       {userConnexion ? (
