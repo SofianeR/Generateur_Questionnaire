@@ -93,8 +93,7 @@ const UpdateForm = () => {
     setIsLoading(true);
     try {
       const response = await axios.post(
-        "https://sofiane-rehila-94.herokuapp.com/questionForm/questionForm/delete/single",
-
+        "https://sofiane-rehila-94.herokuapp.com/questionForm/delete/single",
         {
           id,
         }
