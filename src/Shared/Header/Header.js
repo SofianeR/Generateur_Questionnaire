@@ -11,7 +11,7 @@ const Header = ({ userConnexion, setUser }) => {
     <header>
       <Link to={"/"} className="header-logo">
         <img src={logoTellMeMore} alt="" />
-        <h1>Form Generator</h1>
+        <h1>QuestionForm Generator</h1>
       </Link>
 
       {userConnexion ? (
